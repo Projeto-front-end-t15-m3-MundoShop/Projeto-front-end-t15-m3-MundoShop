@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { api } from "../services/api";
+import { api } from "../Services/api";
 
 interface IDefaultProviderProps {
   children: React.ReactNode;
@@ -43,6 +43,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
       const response = await api.post("/login", FormData);
       setUser(response.data);
       localStorage.setItem("@TOKEN", response.data);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -52,6 +53,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     try {
       const response = await api.post("/register", FormData);
       setUser(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
