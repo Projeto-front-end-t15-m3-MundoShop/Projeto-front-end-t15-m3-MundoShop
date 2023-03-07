@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { api } from "../Services/api";
+import { api } from "../services/api";
 
 interface IDefaultProviderProps {
   children: React.ReactNode;
