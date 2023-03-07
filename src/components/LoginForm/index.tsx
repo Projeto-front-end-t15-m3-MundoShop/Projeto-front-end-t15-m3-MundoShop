@@ -26,8 +26,9 @@ export const LoginForm = () => {
   };
 
   return (
+
     <DivTest>
-      <FormLogin onClick={handleSubmit(submit)}>
+      <FormLogin onSubmit={handleSubmit(submit)}>
         <H2Login>Bem vindo de volta!</H2Login>
         <Input
           label="Seu e-mail"
@@ -43,7 +44,7 @@ export const LoginForm = () => {
         />
         <Link to={"/register"}>Não possui uma conta?</Link>
         <ButtonLogin>
-          <ButtonEntrar>Entrar</ButtonEntrar>
+          <ButtonEntrar type='submit'>Entrar</ButtonEntrar>
           <ButtonBack>Voltar para o início</ButtonBack>
         </ButtonLogin>
       </FormLogin>
