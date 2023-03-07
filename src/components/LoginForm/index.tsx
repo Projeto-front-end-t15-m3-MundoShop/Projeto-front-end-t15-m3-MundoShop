@@ -19,7 +19,7 @@ export const LoginForm = () => {
 
   return (
     <>
-      <FormLogin onClick={handleSubmit(submit)}>
+      <FormLogin onSubmit={handleSubmit(submit)}>
         <h2>Bem vindo de volta!</h2>
         <Input
           label="Seu e-mail"
@@ -35,7 +35,7 @@ export const LoginForm = () => {
         />
         <p>Não possui uma conta?</p>
         <ButtonLogin>
-          <button>Entrar</button>
+          <button type="submit">Entrar</button>
           <button>Voltar para o início</button>
         </ButtonLogin>
       </FormLogin>
