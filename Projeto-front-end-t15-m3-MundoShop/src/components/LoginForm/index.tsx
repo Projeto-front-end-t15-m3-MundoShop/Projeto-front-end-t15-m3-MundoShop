@@ -32,7 +32,7 @@ export const LoginForm = () => {
         errors={errors.password}
       />
       <p>Não possui uma conta?</p>
-      <button>Entrar</button>
+      <button>Enviar</button>
       <button>Voltar para o início</button>
     </form>
   );
