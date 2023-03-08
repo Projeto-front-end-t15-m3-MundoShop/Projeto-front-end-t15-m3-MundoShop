@@ -2,7 +2,15 @@ import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILoginFormValues, UserContext } from "../../providers/UserContext";
 import Input from "../Input";
-import { ButtonLogin, FormLogin } from "./style";
+import {
+  ButtonBack,
+  ButtonEntrar,
+  ButtonLogin,
+  DivTest,
+  FormLogin,
+  H2Login,
+  Link,
+} from "./style";
 
 export const LoginForm = () => {
   const {
@@ -18,9 +26,10 @@ export const LoginForm = () => {
   };
 
   return (
-    <>
-      <FormLogin onClick={handleSubmit(submit)}>
-        <h2>Bem vindo de volta!</h2>
+
+    <DivTest>
+      <FormLogin onSubmit={handleSubmit(submit)}>
+        <H2Login>Bem vindo de volta!</H2Login>
         <Input
           label="Seu e-mail"
           type="email"
@@ -33,12 +42,12 @@ export const LoginForm = () => {
           register={register("password")}
           errors={errors.password}
         />
-        <p>Não possui uma conta?</p>
+        <Link to={"/register"}>Não possui uma conta?</Link>
         <ButtonLogin>
-          <button>Entrar</button>
-          <button>Voltar para o início</button>
+          <ButtonEntrar type='submit'>Entrar</ButtonEntrar>
+          <ButtonBack>Voltar para o início</ButtonBack>
         </ButtonLogin>
       </FormLogin>
-    </>
+    </DivTest>
   );
 };
