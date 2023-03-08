@@ -15,6 +15,15 @@ interface IUser {
   adress: string;
 }
 
+interface IEditProfile {
+  email?: string;
+  name?: string;
+  id?: number;
+  avatar?: string;
+  isSeller?: boolean;
+  adress?: string;
+}
+
 export interface IRegisterFormValues {
   email: string;
   password: string;
@@ -37,12 +46,16 @@ interface IUserContext {
   userRegister: (FormData: IRegisterFormValues) => Promise<void>;
   getUser:  () => Promise<void>;
   userLogout: () => void;
+  editProfileModal: boolean;
+  setEditProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
+  editProfile: (data: IEditProfile) => Promise<void>;
 }
 
 export const UserContext = createContext({} as IUserContext);
 
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
 
   const navigate = useNavigate()
 
@@ -89,8 +102,22 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     navigate('/')
   }
 
+  const editProfile = async (data: IEditProfile) => {
+    const userId = localStorage.getItem('@USERID')
+    const token = localStorage.getItem('@TOKEN')
+
+    try{
+      const response = await api.patch(`/users/${userId}`, data, {headers: {'Authorization': `Bearer ${token}`}})
+      const responseData = response.data
+      setUser(responseData)
+      setEditProfileModal(!editProfileModal)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   return (
-    <UserContext.Provider value={{ user, setUser, userLogin, userRegister, getUser, userLogout }}>
+    <UserContext.Provider value={{ user, setUser, userLogin, userRegister, getUser, userLogout, editProfileModal, setEditProfileModal, editProfile }}>
       {children}
     </UserContext.Provider>
   );

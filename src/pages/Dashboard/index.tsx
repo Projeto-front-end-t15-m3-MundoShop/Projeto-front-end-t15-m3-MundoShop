@@ -1,56 +1,64 @@
 import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserContext } from "../../providers/UserContext"
-import IMG from '../../assets/Ellipse 3.svg'
 import LogoMundoShop from '../../components/LogoMundoShop'
+import { StyledDashboardMain, StyledHeaderDashboard } from "./style"
+import EditProfileModal from "../../components/DashboardModal/EditProfileModal"
+import minhasVendasIcon from '../../assets/minhasVendasIcon.svg'
+import meusPedidosIcon from '../../assets/meusPedidosIcon.svg'
+import criarVendaIcon from '../../assets/criarVendaIcon.svg'
+import { FaEdit } from 'react-icons/fa'
 
 const Dashboard = () => {
-  const {user, getUser, userLogout} = useContext(UserContext)
+  const {user, getUser, userLogout, editProfileModal, setEditProfileModal} = useContext(UserContext)
   const navigate = useNavigate()
 
-useEffect(() => {
-  const token = localStorage.getItem('@TOKEN')
-  if(token){
-    getUser()
-  }else{
-    navigate('/')
-  }
-}, [])
+  useEffect(() => {
+    const token = localStorage.getItem('@TOKEN')
+    if(token){
+      getUser()
+    }else{
+      navigate('/')
+    }
+  }, [])
 
   return (
     <>
-      <header>
+      <StyledHeaderDashboard>
         <LogoMundoShop/>
         <nav>
           <a href='/'>Início</a>
+          
           <p onClick={() => userLogout()}>Sair</p>
         </nav>
-      </header>
-      <main>
-        <section>
+      </StyledHeaderDashboard>
+      <StyledDashboardMain>
+        <section className="user__header">
           <img src={user?.avatar} alt={user?.name}/>
           <div>
             <h1>{user?.name}</h1>
             <p>{user?.email}</p>
           </div>
+          <span onClick={() => setEditProfileModal(!editProfileModal)}>Editar perfil <FaEdit /></span>
         </section>
-        <section>
+        <section className="user__nav--container">
           <nav>
             <div>
-              <img src={IMG}/>
+              <img src={meusPedidosIcon}/>
               <h2>Meus pedidos</h2>
             </div>
             <div>
-              <img src={IMG}/>
+              <img src={minhasVendasIcon}/>
               <h2>Minhas vendas</h2>
             </div>
             <div>
-              <img src={IMG}/>
+              <img src={criarVendaIcon}/>
               <h2>Criar uma venda</h2>
             </div>
           </nav>
         </section>
-      </main>
+      </StyledDashboardMain>
+      <EditProfileModal/>
     </>
   )
 }
