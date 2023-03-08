@@ -17,7 +17,7 @@ export const FormLogin = styled.form`
   background: #ffffff;
   border-radius: 10px;
 
-  margin: 150px auto;
+  margin: 0px auto;
   padding: 78px 57px;
 `;
 

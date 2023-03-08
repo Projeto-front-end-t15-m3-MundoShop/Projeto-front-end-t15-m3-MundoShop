@@ -144,7 +144,6 @@ a {
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  line-height: 26px;
   text-decoration: none;
 }
 
