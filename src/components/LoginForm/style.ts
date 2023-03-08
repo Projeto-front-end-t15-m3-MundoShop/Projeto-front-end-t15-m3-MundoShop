@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link as linkRouter } from "react-router-dom";
+import Rectangle from "./../../assets/Rectangle.svg";
 
 export const H2Login = styled.h2`
   font-family: "Inter";
@@ -12,13 +13,11 @@ export const H2Login = styled.h2`
 `;
 
 export const FormLogin = styled.form`
-  max-width: 502px;
-  width: 100%;
+  width: 500px;
+  max-width: 80%;
   background: #ffffff;
   border-radius: 10px;
-
-  margin: 0px auto;
-  padding: 78px 57px;
+  padding: 25px 25px;
 `;
 
 export const ButtonLogin = styled.div`
@@ -41,6 +40,8 @@ export const ButtonEntrar = styled.button`
   font-size: 16px;
   line-height: 38px;
   color: #ffffff;
+
+  border: none;
 `;
 
 export const ButtonBack = styled.button`
@@ -56,6 +57,8 @@ export const ButtonBack = styled.button`
   font-size: 16px;
   line-height: 38px;
   color: #ffffff;
+
+  border: none;
 `;
 
 export const Link = styled(linkRouter)`
@@ -64,7 +67,7 @@ export const Link = styled(linkRouter)`
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 16px;
   line-height: 38px;
   display: flex;
   justify-content: flex-end;
@@ -72,8 +75,19 @@ export const Link = styled(linkRouter)`
   margin-bottom: 20px;
 `;
 
-export const DivTest = styled.div`
-  background: #f4deff;
+export const DivForm = styled.div`
   width: 100vw;
   height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: url(${Rectangle});
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 `;
+
+export const ImgLogo = styled.img``;
