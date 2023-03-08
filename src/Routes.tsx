@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import { LoginPage } from "./pages/LoginPage";
+import { MainPage } from "./pages/MainPage";
 import { RegisterPage } from "./pages/RegisterPage";
 
 export const Router = () => {
@@ -9,6 +10,7 @@ export const Router = () => {
       <Route path="/" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/mainPage" element={<MainPage />} />
     </Routes>
   );
 };
