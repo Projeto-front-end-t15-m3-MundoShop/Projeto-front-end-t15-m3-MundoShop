@@ -6,11 +6,13 @@ import {
   ButtonBack,
   ButtonEntrar,
   ButtonLogin,
-  DivTest,
+  DivForm,
   FormLogin,
   H2Login,
+  ImgLogo,
   Link,
 } from "./style";
+import LogoShop from "./../../assets/LogoShop.svg";
 
 export const LoginForm = () => {
   const {
@@ -26,8 +28,10 @@ export const LoginForm = () => {
   };
 
   return (
-
-    <DivTest>
+    <DivForm>
+      <div>
+        <ImgLogo src={LogoShop} />
+      </div>
       <FormLogin onSubmit={handleSubmit(submit)}>
         <H2Login>Bem vindo de volta!</H2Login>
         <Input
@@ -44,10 +48,10 @@ export const LoginForm = () => {
         />
         <Link to={"/register"}>Não possui uma conta?</Link>
         <ButtonLogin>
-          <ButtonEntrar type='submit'>Entrar</ButtonEntrar>
+          <ButtonEntrar type="submit">Entrar</ButtonEntrar>
           <ButtonBack>Voltar para o início</ButtonBack>
         </ButtonLogin>
       </FormLogin>
-    </DivTest>
+    </DivForm>
   );
 };
