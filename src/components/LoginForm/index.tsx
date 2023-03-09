@@ -13,13 +13,22 @@ import {
   Link,
 } from "./style";
 import LogoShop from "./../../assets/LogoShop.svg";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object({
+  email: yup.string().required("É-mail obrigatorio!"),
+  password: yup.string().matches(/.{6,}/, "Deve conter 6 caracteres!"),
+});
 
 export const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILoginFormValues>();
+  } = useForm<ILoginFormValues>({
+    resolver: yupResolver(schema),
+  });
 
   const { userLogin } = useContext(UserContext);
 

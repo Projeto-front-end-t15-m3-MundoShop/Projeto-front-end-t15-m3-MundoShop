@@ -1,5 +1,5 @@
 import { FieldError, UseFormRegisterReturn } from "react-hook-form/dist/types";
-import { StyledTextField } from "./style";
+import { PErro, StyledTextField } from "./style";
 
 interface IInputProps {
   label: string;
@@ -10,10 +10,23 @@ interface IInputProps {
   InputLabelProps?: any;
 }
 
-const Input = ({ label, type, register, errors, placeholder, InputLabelProps }: IInputProps) => (
+const Input = ({
+  label,
+  type,
+  register,
+  errors,
+  placeholder,
+  InputLabelProps,
+}: IInputProps) => (
   <fieldset>
-    <StyledTextField type={type} label={label} placeholder={placeholder} InputLabelProps={InputLabelProps} {...register} />
-    <p>{errors ? <p>{errors.message}</p> : null}</p>
+    <StyledTextField
+      type={type}
+      label={label}
+      placeholder={placeholder}
+      InputLabelProps={InputLabelProps}
+      {...register}
+    />
+    <PErro>{errors ? <p>{errors.message}</p> : null}</PErro>
   </fieldset>
 );
 

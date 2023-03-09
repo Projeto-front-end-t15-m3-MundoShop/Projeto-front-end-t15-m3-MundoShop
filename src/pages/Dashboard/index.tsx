@@ -1,66 +1,69 @@
-import { useContext, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { UserContext } from "../../providers/UserContext"
-import LogoMundoShop from '../../components/LogoMundoShop'
-import { StyledDashboardMain, StyledHeaderDashboard } from "./style"
-import EditProfileModal from "../../components/DashboardModal/EditProfileModal"
-import minhasVendasIcon from '../../assets/minhasVendasIcon.svg'
-import meusPedidosIcon from '../../assets/meusPedidosIcon.svg'
-import criarVendaIcon from '../../assets/criarVendaIcon.svg'
-import { FaEdit } from 'react-icons/fa'
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../providers/UserContext";
+import LogoMundoShop from "../../components/LogoMundoShop";
+import { StyledDashboardMain, StyledHeaderDashboard } from "./style";
+import EditProfileModal from "../../components/DashboardModal/EditProfileModal";
+import minhasVendasIcon from "../../assets/minhasVendasIcon.svg";
+import meusPedidosIcon from "../../assets/meusPedidosIcon.svg";
+import criarVendaIcon from "../../assets/criarVendaIcon.svg";
+import { FaEdit } from "react-icons/fa";
 
 const Dashboard = () => {
-  const {user, getUser, userLogout, editProfileModal, setEditProfileModal} = useContext(UserContext)
-  const navigate = useNavigate()
+  const { user, getUser, userLogout, editProfileModal, setEditProfileModal } =
+    useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('@TOKEN')
-    if(token){
-      getUser()
-    }else{
-      navigate('/')
+    const token = localStorage.getItem("@TOKEN");
+    if (token) {
+      getUser();
+    } else {
+      navigate("/");
     }
-  }, [])
+  }, []);
 
   return (
     <>
       <StyledHeaderDashboard>
-        <LogoMundoShop/>
+        <LogoMundoShop />
         <nav>
-          <a href='/'>Início</a>
-          
+          <a href="/">Início</a>
+
           <p onClick={() => userLogout()}>Sair</p>
         </nav>
       </StyledHeaderDashboard>
       <StyledDashboardMain>
         <section className="user__header">
-          <img src={user?.avatar} alt={user?.name}/>
+          <img src={user?.avatar} alt={user?.name} />
           <div>
             <h1>{user?.name}</h1>
             <p>{user?.email}</p>
           </div>
-          <span onClick={() => setEditProfileModal(!editProfileModal)}>Editar perfil <FaEdit /></span>
+          <span onClick={() => setEditProfileModal(!editProfileModal)}>
+            Editar perfil <FaEdit />
+          </span>
         </section>
         <section className="user__nav--container">
           <nav>
             <div>
-              <img src={meusPedidosIcon}/>
+              <img src={meusPedidosIcon} />
               <h2>Meus pedidos</h2>
             </div>
             <div>
-              <img src={minhasVendasIcon}/>
+              <img src={minhasVendasIcon} />
               <h2>Minhas vendas</h2>
             </div>
             <div>
-              <img src={criarVendaIcon}/>
+              <img src={criarVendaIcon} />
               <h2>Criar uma venda</h2>
             </div>
           </nav>
         </section>
       </StyledDashboardMain>
-      <EditProfileModal/>
+      <EditProfileModal />
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
