@@ -1,21 +1,26 @@
 import logo from '../../assets/Logo.png'
+import { StylesHeader } from './styles'
 
 export const Header = () => {
     return (
-        <header>
+        <StylesHeader>
             <nav>
                 <img src={logo} alt="logo Mundo shop" />
                 <p>inicio</p>
-                <h3>Nossos Produtos</h3>
-                <h3>Meu perfil</h3>
+                <div>
+                    <h3>Nossos Produtos</h3>
+                    <h3>Meu perfil</h3>
+                </div>
+                <div>
+                    <h3>Crie sua conta</h3>
+                    <h2>Entrar</h2>
+                </div>
                 <form>
-                    <input type="text" name="" id="" placeholder="Produtos, Roupas ..."/>
+                    <input type="text" name="" id="" placeholder="Produtos, Roupas ..." />
                     <button></button>
                 </form>
-                <h3>Crie sua conta</h3>
-                <h2>Entrar</h2>
                 <button>carrinho</button>
             </nav>
-        </header>
+        </StylesHeader>
     )
 }
