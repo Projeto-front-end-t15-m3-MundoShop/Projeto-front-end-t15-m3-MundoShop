@@ -3,6 +3,9 @@ import { CartProducts } from "../../components/CardProduct"
 import { ProductsContext } from "../../providers/productsContext"
 import fundo from "../../assets/fundoMainPage.svg"
 import { Header } from "../../components/Header"
+import { StylesSectionFundo } from "./stylesFundo"
+import { StylesSectionProducts } from "./stylesListProducts"
+import { StylesMainPage } from "./stylesMainpage"
 
 export const MainPage = () => {
 
@@ -13,17 +16,17 @@ export const MainPage = () => {
     }, [list])
 
     return (
-        <div>
+        <StylesMainPage>
             <Header/>
-            <section>
+            <StylesSectionFundo>
                 <img src={fundo} alt="Mundo Shop" />
-            </section>
-            <section>
+            </StylesSectionFundo>
+            <StylesSectionProducts>
                 <ul>
                      {list.length <= 0 ? (<li><h1>Sem produtos a venda</h1></li>) : (list.map((product, index) => 
                      {return <CartProducts key={index} product={product}></CartProducts> }))}
                 </ul>
-            </section>
-        </div>
+            </StylesSectionProducts>
+        </StylesMainPage>
     )
 }
