@@ -13,15 +13,28 @@ export const StylesCard = styled.li`
   gap: 15px;
   box-sizing: border-box;
   padding: 15px 10px;
-  > h2 {
+
+  > button {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  > button > h2 {
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     line-height: 1.5rem;
   }
 
-  > p {
-    font-weight: 400;
+  > button > p {
+    font-weight: 600;
     font-size: 0.8rem;
     line-height: 1.3rem;
+    font-family: "Inter";
+    color: #333333;
   }
 `;
