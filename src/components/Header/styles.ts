@@ -11,12 +11,11 @@ export const StylesHeader = styled.header`
   > nav {
     display: flex;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1300px;
     flex-direction: column;
     gap: 10px;
     font-family: Inter;
-  margin: 0 auto;
-
+    margin: 0 auto;
   }
 
   > nav > img {
@@ -26,14 +25,23 @@ export const StylesHeader = styled.header`
   > nav > div {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
-  nav > p {
+  nav > a > p {
     font-weight: 400;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     line-height: 1.3rem;
     color: #f097ff;
   }
+
+  nav > div > a {
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    color: #efefef;
+  }
+
   nav > div > h3 {
     font-weight: 400;
     font-size: 0.9rem;
