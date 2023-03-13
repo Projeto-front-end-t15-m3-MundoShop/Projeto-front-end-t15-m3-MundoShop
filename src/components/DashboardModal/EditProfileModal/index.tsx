@@ -1,14 +1,16 @@
-import { useContext } from "react"
-import { UserContext } from "../../../providers/UserContext"
+import { useContext, useState } from "react"
+import { UserContext, IEditProfile } from "../../../providers/UserContext"
 import Input from "../../Input"
 import { StyledModalDiv } from "./style"
-import {useForm} from 'react-hook-form'
-import {  yupResolver  } from '@hookform/resolvers/yup' 
-import * as yup from 'yup'
+import {SubmitHandler, useForm} from 'react-hook-form'
 
 const EditProfileModal = () => {
-    const {editProfileModal, setEditProfileModal, editProfile} = useContext(UserContext)
-    const {register, handleSubmit, formState: {errors}} = useForm()
+    const {editProfileModal, setEditProfileModal, editProfile, user} = useContext(UserContext)
+    const {register, handleSubmit, formState: {errors}} = useForm<IEditProfile>({});
+
+    const submit: SubmitHandler<IEditProfile> = (FormData) => {
+      editProfile(FormData);
+    };
 
     if(editProfileModal){
         return (
@@ -18,12 +20,11 @@ const EditProfileModal = () => {
                     <h2>Editar Perfil</h2>
                     <span onClick={() => setEditProfileModal(!editProfileModal)}>X</span>
                 </div>
-                <form onSubmit={handleSubmit(editProfile)}>
-                    <Input label="Avatar" type="file" {...register('avatar')} InputLabelProps={{ shrink: true }}/>
-                    <Input label="Nome" type="text" {...register('name')}/>
-                    <Input label="E-mail" type="text" {...register('email')}/>
-                    <Input label="Senha" type="password" {...register('password')}/>
-                    <Input label="Endereço" type="text" {...register('address')} placeholder="Rua Exemplo, 300, APTO 101 Florianópolis-Santa Catarina"/>
+                <form onSubmit={handleSubmit(submit)}>
+                    <Input label="Nome" type="text" defaultValue={user?.name} register={register('name')}/>
+                    <Input label="E-mail" type="text" defaultValue={user?.email} register={register('email')}/>
+                    <Input label="Senha" type="password" register={register('password')} errors={errors.password}/>
+                    <Input label="Endereço" type="text" defaultValue={user?.adress} register={register('adress')} placeholder="Rua Exemplo, 300, APTO 101 Florianópolis-Santa Catarina"/>
                     <button type="submit">Enviar alterações</button>
                 </form>
             </div>
