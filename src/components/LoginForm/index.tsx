@@ -58,7 +58,9 @@ export const LoginForm = () => {
         <Link to={"/register"}>Não possui uma conta?</Link>
         <ButtonLogin>
           <ButtonEntrar type="submit">Entrar</ButtonEntrar>
-          <ButtonBack>Voltar para o início</ButtonBack>
+          <ButtonBack type="button" onClick={() => history.back()}>
+            Voltar para o início
+          </ButtonBack>
         </ButtonLogin>
       </FormLogin>
     </DivForm>
