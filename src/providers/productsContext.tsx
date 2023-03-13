@@ -42,7 +42,7 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const [createSaleModal, setCreateSaleModal] = useState<boolean>(false)
   const [filteredProducts, setFilteredProducts] = useState("")
 
-  // commit
+  // commit de novo
 
   useEffect(() => {
     const ListProduct = async () => {
