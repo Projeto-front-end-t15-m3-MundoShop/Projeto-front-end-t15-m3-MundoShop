@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios"
 import { createContext, useEffect, useState } from "react"
+import { toast } from "react-toastify"
 import { api } from "../Services/api"
 
 interface IDefaultProviderProps {
@@ -41,6 +42,8 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const [createSaleModal, setCreateSaleModal] = useState<boolean>(false)
   const [filteredProducts, setFilteredProducts] = useState("")
 
+  // commit
+
   useEffect(() => {
     const ListProduct = async () => {
       try {
@@ -52,11 +55,12 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
     }
     ListProduct()
   })
-  
-  const searchProducts = list.filter((product) => {
-    return filteredProducts === "" ? true : (product.name.toLowerCase()).includes(filteredProducts.toLowerCase())
-})
 
+  const searchProducts = list.filter((product) => {
+    return filteredProducts === ""
+      ? true
+      : product.name.toLowerCase().includes(filteredProducts.toLowerCase())
+  })
 
   async function createSale(FormData: ICreateSaleFormValues) {
     const token = localStorage.getItem("@TOKEN")
@@ -64,7 +68,8 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
       const response = await api.post("/products", FormData, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      // toast.success
+      toast.success("Venda criada com sucesso")
+      setCreateSaleModal(!createSaleModal)
     } catch (error) {
       console.log(error)
     }
@@ -72,7 +77,16 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
 
   return (
     <ProductsContext.Provider
-      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal, filteredProducts, setFilteredProducts, searchProducts }}
+      value={{
+        list,
+        setList,
+        createSale,
+        createSaleModal,
+        setCreateSaleModal,
+        filteredProducts,
+        setFilteredProducts,
+        searchProducts,
+      }}
     >
       {children}
     </ProductsContext.Provider>
