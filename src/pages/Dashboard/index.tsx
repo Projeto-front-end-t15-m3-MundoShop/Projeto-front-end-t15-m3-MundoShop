@@ -1,27 +1,31 @@
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../providers/UserContext";
-import LogoMundoShop from "../../components/LogoMundoShop";
-import { StyledDashboardMain, StyledHeaderDashboard } from "./style";
-import EditProfileModal from "../../components/DashboardModal/EditProfileModal";
-import minhasVendasIcon from "../../assets/minhasVendasIcon.svg";
-import meusPedidosIcon from "../../assets/meusPedidosIcon.svg";
-import criarVendaIcon from "../../assets/criarVendaIcon.svg";
-import { FaEdit } from "react-icons/fa";
+import { useContext, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { UserContext } from "../../providers/UserContext"
+import LogoMundoShop from "../../components/LogoMundoShop"
+import { StyledDashboardMain, StyledHeaderDashboard } from "./style"
+import EditProfileModal from "../../components/DashboardModal/EditProfileModal"
+import minhasVendasIcon from "../../assets/minhasVendasIcon.svg"
+import meusPedidosIcon from "../../assets/meusPedidosIcon.svg"
+import criarVendaIcon from "../../assets/criarVendaIcon.svg"
+import { FaEdit } from "react-icons/fa"
+import CreateSale from "../../components/CreateSale"
+import { Link } from "react-router-dom"
+import { ProductsContext } from "../../providers/productsContext"
 
 const Dashboard = () => {
   const { user, getUser, userLogout, editProfileModal, setEditProfileModal } =
-    useContext(UserContext);
-  const navigate = useNavigate();
+    useContext(UserContext)
+  const { setCreateSaleModal, createSaleModal } = useContext(ProductsContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const token = localStorage.getItem("@TOKEN");
+    const token = localStorage.getItem("@TOKEN")
     if (token) {
-      getUser();
+      getUser()
     } else {
-      navigate("/");
+      navigate("/")
     }
-  }, []);
+  }, [])
 
   return (
     <>
@@ -54,7 +58,7 @@ const Dashboard = () => {
               <img src={minhasVendasIcon} />
               <h2>Minhas vendas</h2>
             </div>
-            <div>
+            <div onClick={() => setCreateSaleModal(!createSaleModal)}>
               <img src={criarVendaIcon} />
               <h2>Criar uma venda</h2>
             </div>
@@ -62,8 +66,9 @@ const Dashboard = () => {
         </section>
       </StyledDashboardMain>
       <EditProfileModal />
+      <CreateSale />
     </>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard
