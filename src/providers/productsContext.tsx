@@ -54,7 +54,7 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
       const response = await api.post("/products", FormData, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      toast.success
+      // toast.success
     } catch (error) {
       console.log(error)
     }
@@ -71,4 +71,3 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
 function toast(response: AxiosResponse<any, any>) {
   throw new Error("Function not implemented.")
 }
-
