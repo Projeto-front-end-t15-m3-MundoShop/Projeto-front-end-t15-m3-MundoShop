@@ -1,13 +1,17 @@
+import { TextFieldProps } from "@mui/material";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form/dist/types";
 import { PErro, StyledTextField } from "./style";
 
-interface IInputProps {
+interface IInputProps{
   label: string;
   type: "text" | "email" | "password" | "file";
   register?: UseFormRegisterReturn<string>;
-  errors?: FieldError;
+  errors?: FieldError | undefined;
   placeholder?: string;
   InputLabelProps?: any;
+  value?: string;
+  onChange?: (event: any) => void;
+  defaultValue?: string
 }
 
 const Input = ({
@@ -17,16 +21,22 @@ const Input = ({
   errors,
   placeholder,
   InputLabelProps,
+  value,
+  onChange,
+  defaultValue
 }: IInputProps) => (
   <fieldset>
     <StyledTextField
       type={type}
       label={label}
+      value={value}
       placeholder={placeholder}
       InputLabelProps={InputLabelProps}
+      onChange={onChange}
       {...register}
+      defaultValue={defaultValue}
     />
-    <PErro>{errors ? <p>{errors.message}</p> : null}</PErro>
+    {errors ? <PErro>{errors.message}</PErro>: null}
   </fieldset>
 );
 

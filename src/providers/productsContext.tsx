@@ -8,6 +8,7 @@ interface IDefaultProviderProps {
 
 export interface IProducts {
   description: string
+  category?: string
   img: string
   name: string
   price: number
@@ -25,6 +26,9 @@ export interface ICreateSaleFormValues {
 interface IProductsContext {
   list: IProducts[]
   setList: React.Dispatch<React.SetStateAction<IProducts[]>>
+  filteredProducts: string
+  setFilteredProducts: React.Dispatch<React.SetStateAction<string>>
+  searchProducts: IProducts[]
   createSale: (FormData: ICreateSaleFormValues) => void
   setCreateSaleModal: React.Dispatch<React.SetStateAction<boolean>>
   createSaleModal: boolean
@@ -35,6 +39,7 @@ export const ProductsContext = createContext({} as IProductsContext)
 export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const [list, setList] = useState([] as IProducts[])
   const [createSaleModal, setCreateSaleModal] = useState<boolean>(false)
+  const [filteredProducts, setFilteredProducts] = useState("")
 
   useEffect(() => {
     const ListProduct = async () => {
@@ -47,6 +52,11 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
     }
     ListProduct()
   })
+  
+  const searchProducts = list.filter((product) => {
+    return filteredProducts === "" ? true : (product.name.toLowerCase()).includes(filteredProducts.toLowerCase())
+})
+
 
   async function createSale(FormData: ICreateSaleFormValues) {
     const token = localStorage.getItem("@TOKEN")
@@ -62,12 +72,9 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
 
   return (
     <ProductsContext.Provider
-      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal }}
+      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal, filteredProducts, setFilteredProducts, searchProducts }}
     >
       {children}
     </ProductsContext.Provider>
   )
-}
-function toast(response: AxiosResponse<any, any>) {
-  throw new Error("Function not implemented.")
 }
