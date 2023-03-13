@@ -17,13 +17,14 @@ interface IUser {
   adress: string;
 }
 
-interface IEditProfile {
+export interface IEditProfile {
   email?: string;
   name?: string;
   id?: number;
   avatar?: string;
   isSeller?: boolean;
   adress?: string;
+  password?: string;
 }
 
 export interface IRegisterFormValues {
@@ -41,6 +42,11 @@ export interface ILoginFormValues {
   password: string;
 }
 
+export interface IFileProps extends File {
+  path?: string
+  preview: string
+}
+
 interface IUserContext {
   user: IUser | null;
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
@@ -50,7 +56,12 @@ interface IUserContext {
   userLogout: () => void;
   editProfileModal: boolean;
   setEditProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
+  editAvatarModal: boolean;
+  setEditAvatarModal: React.Dispatch<React.SetStateAction<boolean>>;
   editProfile: (data: IEditProfile) => Promise<void>;
+  files: IFileProps[];
+  setFiles: React.Dispatch<React.SetStateAction<IFileProps[]>>;
+  attAvatar: (event: any) => void;
 }
 
 export const UserContext = createContext({} as IUserContext);
@@ -58,6 +69,8 @@ export const UserContext = createContext({} as IUserContext);
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
+  const [editAvatarModal, setEditAvatarModal] = useState<boolean>(false);
+  const [files, setFiles] = useState<IFileProps[]>([]);
 
   const navigate = useNavigate();
 
@@ -109,35 +122,48 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
   };
 
   const editProfile = async (data: IEditProfile) => {
-    const userId = localStorage.getItem("@USERID");
-    const token = localStorage.getItem("@TOKEN");
+    const userId = localStorage.getItem('@USERID')
+    const token = localStorage.getItem('@TOKEN')
 
-    try {
-      const response = await api.patch(`/users/${userId}`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const responseData = response.data;
-      setUser(responseData);
-      setEditProfileModal(!editProfileModal);
-    } catch (error) {
-      console.log(error);
+    if(data.password === ""){
+      delete data.password
+    }
+    if(data.email === ""){
+      delete data.email
+    }
+    if(data.adress === ""){
+      delete data.adress
+    }
+    if(data.name === ""){
+      delete data.name
+    }
+    
+    try{
+      const response = await api.patch(`/users/${userId}`, data, {headers: {'Authorization': `Bearer ${token}`}})
+      const responseData = response.data
+      setUser(responseData)
+      setEditProfileModal(!editProfileModal)
+    }catch(error){
+      console.log(error)
     }
   };
 
+  const attAvatar = async (event: any) => {
+    event.preventDefault()
+    const userId = localStorage.getItem('@USERID')
+    const token = localStorage.getItem('@TOKEN')
+    try{
+      const response = await api.patch(`/users/${userId}`, {avatar: files[0].preview}, {headers: {'Authorization': `Bearer ${token}`}})
+      const responseData = response.data
+      setUser(responseData)
+      setEditAvatarModal(!editAvatarModal)
+    }catch (error){
+      console.log(error)
+    }
+  }
+
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        userLogin,
-        userRegister,
-        getUser,
-        userLogout,
-        editProfileModal,
-        setEditProfileModal,
-        editProfile,
-      }}
-    >
+    <UserContext.Provider value={{ user, setUser, userLogin, userRegister, getUser, userLogout, editProfileModal, setEditProfileModal, editProfile, editAvatarModal, setEditAvatarModal, files, setFiles, attAvatar}}>
       {children}
     </UserContext.Provider>
   );
