@@ -179,7 +179,6 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
           }
         });
       })
-
   }
 
   return (

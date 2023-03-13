@@ -16,7 +16,7 @@ const EditAvatarModal = () => {
                 </div>
                 <form onSubmit={() => attAvatar(event)}>
                     {percent ? <p>{percent} "% carregados"</p> : null}
-                    <DropzoneAvatar />
+                    <DropzoneAvatar maxFiles={1}/>
                     <button type="submit">Enviar</button>
                 </form>
             </div>
