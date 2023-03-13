@@ -39,12 +39,12 @@ const CreateSale = () => {
       <StyledForm>
         <div className="modal__container">
           <div className="modal__header">
-            <button
+            <span
               onClick={() => setCreateSaleModal(!createSaleModal)}
               className="back_button"
             >
-              <img src="./src/assets/botaoVoltar.png" alt="" />
-            </button>
+              X
+            </span>
             <h2>Criar uma venda</h2>
           </div>
           <form onSubmit={handleSubmit(submit)}>

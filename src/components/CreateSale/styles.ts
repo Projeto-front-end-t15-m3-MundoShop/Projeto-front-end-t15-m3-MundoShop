@@ -47,10 +47,12 @@ export const StyledForm = styled.div`
 
   .modal__header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
     height: 40px;
-    padding: 20px 35px;
+    padding: 20px 30px;
+    gap: 105px;
 
     h2 {
       font-size: 1.5rem;
@@ -59,6 +61,15 @@ export const StyledForm = styled.div`
       font-size: 1.5rem;
       font-weight: bold;
       cursor: pointer;
+    }
+
+    .back_button {
+      border-radius: 40px;
+      border: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: transparent;
     }
   }
 `

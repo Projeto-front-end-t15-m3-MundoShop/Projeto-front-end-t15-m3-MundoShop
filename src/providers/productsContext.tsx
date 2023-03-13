@@ -1,6 +1,8 @@
 import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage"
 import { createContext, useContext, useEffect, useState } from "react"
 import { storage } from "../firebase"
+import { toast } from "react-toastify"
+
 import { api } from "../Services/api"
 import { UserContext } from "./UserContext"
 
@@ -45,6 +47,8 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const [filteredProducts, setFilteredProducts] = useState("")
   const {files} = useContext(UserContext)
 
+  // commit
+
   useEffect(() => {
     const ListProduct = async () => {
       try {
@@ -61,6 +65,11 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
     return filteredProducts === "" ? true : (product.name.toLowerCase()).includes(filteredProducts.toLowerCase())
 })
 
+  const searchProducts = list.filter((product) => {
+    return filteredProducts === ""
+      ? true
+      : product.name.toLowerCase().includes(filteredProducts.toLowerCase())
+  })
 
   async function createSale(FormData: ICreateSaleFormValues) {
     const token = localStorage.getItem("@TOKEN")
@@ -72,6 +81,8 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
       const response = await api.post("/products", newData, {
         headers: { Authorization: `Bearer ${token}` },
       })
+      toast.success("Venda criada com sucesso")
+      setCreateSaleModal(!createSaleModal)
     } catch (error) {
       console.log(error)
     }
