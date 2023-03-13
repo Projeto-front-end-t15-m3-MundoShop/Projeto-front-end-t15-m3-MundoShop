@@ -1,20 +1,15 @@
-import { useContext, useState} from 'react'
+import { useContext } from 'react'
 import {useDropzone} from 'react-dropzone'
 import {FiUpload} from 'react-icons/fi'
 import { IFileProps, UserContext } from '../../providers/UserContext';
 import { DragContainer, FilesPreview } from './style'
 
-interface IDropProps {
-    setImgFile: (file: IFileProps) => void;
-}
-
-export const DropzoneAvatar = () => {
+const DropzoneAvatar = () => {
   const {files, setFiles} = useContext(UserContext)
-
   const { getRootProps, getInputProps } =
     useDropzone({
       maxFiles: 1,
-      accept: {   
+      accept: {
         "image/*": []
       },
       onDrop: (acceptedFiles) => {
@@ -24,7 +19,7 @@ export const DropzoneAvatar = () => {
               preview: URL.createObjectURL(file),
             })
           )
-        );
+          );
       },
     });
     const Preview = files.map((file: any) => (
