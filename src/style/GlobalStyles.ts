@@ -108,6 +108,9 @@ nav,
 section {
   display: block;
 }
+html {
+  background-color: #EDEDED;
+}
 body {
   line-height: 1;
 }

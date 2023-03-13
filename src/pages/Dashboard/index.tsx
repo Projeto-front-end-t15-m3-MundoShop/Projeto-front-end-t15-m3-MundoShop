@@ -20,7 +20,7 @@ const Dashboard = () => {
     if (token) {
       getUser();
     } else {
-      navigate("/");
+      navigate("/login");
     }
   }, []);
 

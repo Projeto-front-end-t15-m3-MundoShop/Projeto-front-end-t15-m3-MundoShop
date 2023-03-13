@@ -1,24 +1,26 @@
+import { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import logo from '../../assets/Logo.png'
+import { VerifictionContext } from '../../providers/redirectionContext'
+import { Form } from '../FormSearchProduct'
 import { StylesHeader } from './styles'
 
 export const Header = () => {
+    const { VerificationLogin } = useContext(VerifictionContext)
     return (
         <StylesHeader>
             <nav>
                 <img src={logo} alt="logo Mundo shop" />
-                <p>inicio</p>
+                <Link to={"/"}> <p>Inicio</p>  </Link>
                 <div>
                     <h3>Nossos Produtos</h3>
-                    <h3>Meu perfil</h3>
+                    <Link to={"/dashboard"}>Meu perfil</Link>
                 </div>
                 <div>
-                    <h3>Crie sua conta</h3>
-                    <h2>Entrar</h2>
+                    <Link to={"/register"}>Crie sua conta</Link>
+                    <Link to={"/login"}><h2> Entrar </h2></Link>
                 </div>
-                <form>
-                    <input type="text" name="" id="" placeholder="Produtos, Roupas ..." />
-                    <button></button>
-                </form>
+                <Form/>
                 <button>carrinho</button>
             </nav>
         </StylesHeader>

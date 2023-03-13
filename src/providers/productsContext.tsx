@@ -11,17 +11,22 @@ export interface IProducts {
     name: string
     price: number
     userId: number
+    
 }
 
 interface IProductsContext {
     list: IProducts[]
     setList: React.Dispatch<React.SetStateAction<IProducts[]>>
+    filteredProducts: string
+    setFilteredProducts: React.Dispatch<React.SetStateAction<string>>
+    searchProducts: IProducts[]
 }
 
 export const ProductsContext = createContext({} as IProductsContext);
 
 export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
 
+    const [filteredProducts, setFilteredProducts] = useState("")
     const [list, setList] = useState([] as IProducts[])
 
     useEffect(() => {
@@ -36,8 +41,12 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
         ListProduct()
     })
 
+    const searchProducts = list.filter((product) => {
+        return filteredProducts === "" ? true : (product.name.toLowerCase()).includes(filteredProducts.toLowerCase())
+    })
+
     return (
-        <ProductsContext.Provider value={{ list, setList }}>
+        <ProductsContext.Provider value={{ list, setList, filteredProducts, setFilteredProducts, searchProducts}}>
             {children}
         </ProductsContext.Provider>
     );
