@@ -1,6 +1,8 @@
-import { AxiosResponse } from "axios"
-import { createContext, useEffect, useState } from "react"
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage"
+import { createContext, useContext, useEffect, useState } from "react"
+import { storage } from "../firebase"
 import { api } from "../Services/api"
+import { UserContext } from "./UserContext"
 
 interface IDefaultProviderProps {
   children: React.ReactNode
@@ -31,7 +33,8 @@ interface IProductsContext {
   searchProducts: IProducts[]
   createSale: (FormData: ICreateSaleFormValues) => void
   setCreateSaleModal: React.Dispatch<React.SetStateAction<boolean>>
-  createSaleModal: boolean
+  createSaleModal: boolean;
+  addProductImg: (event: any) => void
 }
 
 export const ProductsContext = createContext({} as IProductsContext)
@@ -40,6 +43,7 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const [list, setList] = useState([] as IProducts[])
   const [createSaleModal, setCreateSaleModal] = useState<boolean>(false)
   const [filteredProducts, setFilteredProducts] = useState("")
+  const {files} = useContext(UserContext)
 
   useEffect(() => {
     const ListProduct = async () => {
@@ -51,7 +55,7 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
       }
     }
     ListProduct()
-  })
+  }, [])
   
   const searchProducts = list.filter((product) => {
     return filteredProducts === "" ? true : (product.name.toLowerCase()).includes(filteredProducts.toLowerCase())
@@ -60,19 +64,44 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
 
   async function createSale(FormData: ICreateSaleFormValues) {
     const token = localStorage.getItem("@TOKEN")
+    const userId = localStorage.getItem('@USERID')
+
+    const newData = {...FormData, "userId": Number(userId)}
+
     try {
-      const response = await api.post("/products", FormData, {
+      const response = await api.post("/products", newData, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      // toast.success
     } catch (error) {
       console.log(error)
     }
   }
 
+  const addProductImg = (event: any) => {
+    event.preventDefault()
+    const userId = localStorage.getItem('@USERID')
+    const token = localStorage.getItem('@TOKEN')
+    files?.map(item => {
+      const storageRef = ref(storage, `/ProductsFiles/${item.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, item)
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        },
+        (err) => console.log(err),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then( async (url) => {
+            console.log(url)
+          })
+    })
+    })
+}
+
   return (
     <ProductsContext.Provider
-      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal, filteredProducts, setFilteredProducts, searchProducts }}
+      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal, filteredProducts, setFilteredProducts, searchProducts, addProductImg}}
     >
       {children}
     </ProductsContext.Provider>

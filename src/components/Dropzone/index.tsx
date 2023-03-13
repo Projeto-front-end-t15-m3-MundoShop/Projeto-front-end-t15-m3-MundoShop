@@ -1,14 +1,14 @@
 import { useContext } from 'react'
 import {useDropzone} from 'react-dropzone'
 import {FiUpload} from 'react-icons/fi'
-import { IFileProps, UserContext } from '../../providers/UserContext';
+import { UserContext } from '../../providers/UserContext';
 import { DragContainer, FilesPreview } from './style'
 
-const DropzoneAvatar = () => {
-  const {files, setFiles} = useContext(UserContext)
+const DropzoneAvatar = ({maxFiles}: any) => {
+  const { files, setFiles } = useContext(UserContext)
   const { getRootProps, getInputProps } =
     useDropzone({
-      maxFiles: 1,
+      maxFiles: maxFiles,
       accept: {
         "image/*": []
       },
@@ -24,7 +24,8 @@ const DropzoneAvatar = () => {
     });
     const Preview = files.map((file: any) => (
       <div key={file.name}>
-        <img src={file.preview} alt="Imagem enviada"/>
+        {/* <img src={file.preview} alt="Imagem enviada"/> */}
+        <p>{file.name}</p>
       </div>
     ));
 
@@ -32,7 +33,7 @@ const DropzoneAvatar = () => {
       <div className="container">
         <DragContainer {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
-          <p><FiUpload/> Arraste a imagem ou cliqe aqui.</p>
+          <p><FiUpload/> Arraste a imagem ou clique aqui.</p>
         </DragContainer>
         <FilesPreview>{Preview}</FilesPreview>
       </div>
