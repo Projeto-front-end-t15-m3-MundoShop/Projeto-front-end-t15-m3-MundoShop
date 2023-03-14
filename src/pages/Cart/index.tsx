@@ -67,7 +67,7 @@ export const Cart = () => {
           );
         })}
 
-      {cart && (
+      {cart.length !== 0 && (
         <aside>
           <div>
             <h2>Total</h2>
