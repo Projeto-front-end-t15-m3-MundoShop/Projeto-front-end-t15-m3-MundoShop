@@ -12,7 +12,6 @@ interface IDefaultProviderProps {
 }
 
 export interface IProducts {
-
   description: string
   category?: string
   img: string
@@ -76,6 +75,7 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
       ? true
       : product.name.toLowerCase().includes(filteredProducts.toLowerCase());
   });
+
 
   async function createSale(FormData: ICreateSaleFormValues) {
     const token = localStorage.getItem("@TOKEN");
