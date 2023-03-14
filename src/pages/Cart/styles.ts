@@ -49,7 +49,7 @@ export const CartStyles = styled.div`
 
     padding: 42px 0;
     margin-top: 60px;
-    margin-bottom: 10px;
+    margin-bottom: 50px;
 
     background-color: #fcfcfc;
     h1 {
