@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard"
 import { LoginPage } from "./pages/LoginPage"
 import { MainPage } from "./pages/MainPage"
 import { RegisterPage } from "./pages/RegisterPage"
+import { MySalesPage } from "./pages/MySales"
 
 export const Router = () => {
   return (
@@ -15,6 +16,7 @@ export const Router = () => {
       <Route path="/sale" element={<CreateSale />} />
 
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/mysales" element={<MySalesPage />} />
     </Routes>
   )
 }

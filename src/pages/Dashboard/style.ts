@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Link as linkRouter } from "react-router-dom";
 
 export const StyledHeaderDashboard = styled.header`
   display: flex;
@@ -109,12 +110,23 @@ export const StyledDashboardMain = styled.main`
         text-align: center;
         cursor: pointer;
 
-        h2 {
+        h2{ 
           font-size: 1.5rem;
           color: #8f8f8f;
           font-weight: bold;
+          font-family: inter;
         }
       }
     }
   }
 `
+
+export const Link = styled(linkRouter)`
+  h2{
+    font-size: 1.5rem;
+    color: #8f8f8f;
+    font-weight: bold;
+    font-family: inter;
+  }
+`;
+
