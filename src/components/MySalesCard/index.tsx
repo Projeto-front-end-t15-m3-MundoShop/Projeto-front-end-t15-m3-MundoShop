@@ -1,9 +1,10 @@
 import { useContext } from "react"
 import { ProductsContext } from "../../providers/productsContext"
+import RemoveMySaleModal from "../DashboardModal/RemoveMySaleModal"
 import { StyledMyCardLi } from "./style"
 
 const MySalesCard = () => {
-    const {mySales, addImgToProduct} = useContext(ProductsContext)
+    const {mySales, addImgToProduct, setRemoveMySalesModal, removeMySalesModal, openMySalesModal} = useContext(ProductsContext)
  
   return (
     <>
@@ -19,10 +20,11 @@ const MySalesCard = () => {
           </div>
           <div>
             <button onClick={() => addImgToProduct(item.id)} >Adicionar fotos</button>
-            <button>Remover anúncio</button>
+            <button onClick={() => openMySalesModal(item.id)}>Remover anúncio</button>
           </div>
         </StyledMyCardLi>
     ))}
+    <RemoveMySaleModal/>
     </>
   )
 }
