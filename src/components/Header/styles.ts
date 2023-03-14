@@ -35,6 +35,7 @@ export const StylesHeader = styled.header`
     img {
       max-width: 35px;
       background-color: transparent;
+      margin-right: 200px;
     }
   }
 
@@ -123,4 +124,5 @@ export const StylesHeader = styled.header`
     max-width: 70%;
   }
   }
-`;
+}
+`
