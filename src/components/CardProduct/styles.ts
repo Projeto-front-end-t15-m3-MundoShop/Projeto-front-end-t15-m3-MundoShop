@@ -22,31 +22,27 @@ export const StylesCard = styled.li`
     justify-content: center;
     align-items: flex-start;
     text-align: left;
+    gap: 15px;
 
-    img{
+    img {
       width: 100%;
       height: 200px;
       border-radius: 8px;
       margin-bottom: 20px;
+      max-width: 100%;
+      margin: 0 auto;
     }
-  }
-
-  > button > img {
-    max-width:100%;
-    margin: 0 auto;
-  }
-
-  > button > h2 {
-    font-weight: 600;
-    font-size: 1.2rem;
-    line-height: 1.5rem;
-  }
-
-  > button > p {
-    font-weight: 600;
-    font-size: 0.8rem;
-    line-height: 1.3rem;
-    font-family: "Inter";
-    color: #333333;
+    h2 {
+      font-weight: 600;
+      font-size: 1.2rem;
+      line-height: 1.5rem;
+    }
+    p {
+      font-weight: 600;
+      font-size: 0.8rem;
+      line-height: 1.3rem;
+      font-family: "Inter";
+      color: #333333;
+    }
   }
 `;
