@@ -54,7 +54,6 @@ export const StyledDashboardMain = styled.main`
     background-color: #751a8c;
     border-radius: 8px;
     width: 100px;
-    height: 30px;
     color: rgb(248, 249, 250);
     font-weight: bold;
   }
