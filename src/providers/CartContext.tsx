@@ -6,7 +6,7 @@ interface ICartContext {
   cart: IProducts[];
   addToCart: (product: IProducts) => void;
   totalValue: () => number;
-  removeProduct: (name: string) => void;
+  removeProduct: (id: number) => void;
 }
 
 interface ICartProviderProps {
@@ -26,13 +26,13 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   };
 
   const addToCart = (product: IProducts) => {
-    if (!cart.find((producter) => producter.name === product.name)) {
+    if (!cart.find((producter) => producter.id === product.id)) {
       setCart([...cart, product]);
     }
   };
 
-  const removeProduct = (name: string) => {
-    setCart(cart.filter((product) => product.name !== name));
+  const removeProduct = (id: number) => {
+    setCart(cart.filter((product) => product.id !== id));
   };
 
   return (
