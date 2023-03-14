@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 interface IDefaultProviderProps {
@@ -8,7 +8,9 @@ interface IDefaultProviderProps {
 interface IVerifictionContext {
     VerificationLogin: () => void
     token: string | null
+    OpenMenu: () => void
     navigate: NavigateFunction
+    stateMenu: boolean
 }
 
 export const VerifictionContext = createContext({} as IVerifictionContext);
@@ -16,6 +18,7 @@ export const VerifictionContext = createContext({} as IVerifictionContext);
 export const VerifictionProvider = ({ children }: IDefaultProviderProps) => {
     const token = localStorage.getItem("@TOKEN")
     const navigate = useNavigate()
+    const [ stateMenu, setStateMenu ] = useState(false)
 
     const VerificationLogin = () => {
 
@@ -26,8 +29,19 @@ export const VerifictionProvider = ({ children }: IDefaultProviderProps) => {
         }
     }
 
+    const OpenMenu = () => {
+        if(!stateMenu) {
+            setStateMenu(true)
+        }
+        else {
+            setStateMenu(false)
+        }
+    }
+
+    
+
     return (
-        <VerifictionContext.Provider value={{ VerificationLogin, token, navigate}}>
+        <VerifictionContext.Provider value={{ VerificationLogin, token, navigate, OpenMenu, stateMenu}}>
             {children}
         </VerifictionContext.Provider>
     );
