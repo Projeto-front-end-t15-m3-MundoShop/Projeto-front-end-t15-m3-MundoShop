@@ -5,7 +5,6 @@ import { IProducts } from "./productsContext";
 interface ICartContext {
   cart: IProducts[];
   addToCart: (product: IProducts) => void;
-  totalValue: () => number;
   removeProduct: (id: any) => void;
 }
 
@@ -17,13 +16,6 @@ export const CartContext = createContext({} as ICartContext);
 
 export const CartProvider = ({ children }: ICartProviderProps) => {
   const [cart, setCart] = useState<IProducts[]>([]);
-
-  const totalValue = (): number => {
-    const sum = cart.reduce((prevValue: number, currentValue: IProducts) => {
-      return prevValue + Number(currentValue.price);
-    }, 0);
-    return sum;
-  };
 
   const addToCart = (product: IProducts) => {
     if (!cart.find((producter) => producter.id === product.id)) {
@@ -37,7 +29,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, totalValue, addToCart, removeProduct }}
+      value={{ cart, addToCart, removeProduct }}
     >
       {children}
     </CartContext.Provider>
