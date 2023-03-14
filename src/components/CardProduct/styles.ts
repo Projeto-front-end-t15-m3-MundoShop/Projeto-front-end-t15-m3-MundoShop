@@ -31,6 +31,11 @@ export const StylesCard = styled.li`
     }
   }
 
+  > button > img {
+    max-width:100%;
+    margin: 0 auto;
+  }
+
   > button > h2 {
     font-weight: 600;
     font-size: 1.2rem;

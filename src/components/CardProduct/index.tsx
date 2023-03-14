@@ -1,6 +1,6 @@
 import { IProducts } from "../../providers/productsContext"
 import { StylesCard } from "./styles"
-
+import img from '../../assets/Apple-Macbook-Pro-A2779.png'
 
 interface IProductsProps {
     product: IProducts

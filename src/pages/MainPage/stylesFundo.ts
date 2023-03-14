@@ -5,6 +5,6 @@ export const StylesSectionFundo = styled.section`
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
-  max-width: 1600px;
+  max-width: 1400px;
   margin: 0 auto;
 `;

@@ -13,6 +13,7 @@ export const StylesHeader = styled.header`
     width: 100%;
     max-width: 1300px;
     flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
     font-family: Inter;
     margin: 0 auto;
@@ -26,28 +27,33 @@ export const StylesHeader = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%
   }
 
   nav > a > p {
-    font-weight: 400;
+    font-weight: 600;
     font-size: 0.8rem;
     line-height: 1.3rem;
     color: #f097ff;
   }
 
   nav > div > a {
-    font-weight: 400;
+    font-weight: 600;
     font-size: 0.9rem;
     line-height: 1.3rem;
     color: #efefef;
   }
 
-  nav > div > h3 {
-    font-weight: 400;
+  > nav > div > button  {
+    border: none;
+    background-color: transparent;
+    font-weight: 600;
     font-size: 0.9rem;
     line-height: 1.3rem;
     color: #efefef;
+
   }
+
   nav > div > h2 {
     font-weight: 400;
     font-size: 1rem;
@@ -76,18 +82,30 @@ export const StylesHeader = styled.header`
     background-color: #3d1b45;
   }
 
+  > nav > button  {
+    border-radius: 0px 8px 8px 0px;
+    border: none;
+    background-color: transparent;
+
+  }
+
   @media (min-width: 770px) {
     > nav {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 3%;
+      gap: 2%;
     }
     > nav > div {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      width: 20%;
     }
+  }
+
+  > nav > form > input {
+    max-width: 70%;
+    
   }
 `;
