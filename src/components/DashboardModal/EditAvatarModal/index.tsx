@@ -1,11 +1,10 @@
-import { useContext, useState } from "react"
-import DropzoneAvatar from "../../Dropzone"
+import { useContext } from "react"
+import {DropzoneAvatar} from "../../Dropzone"
 import { UserContext } from "../../../providers/UserContext"
 import { StyledModalDiv } from "../EditProfileModal/style"
 
 const EditAvatarModal = () => {
-    const {editAvatarModal, setEditAvatarModal, attAvatar} = useContext(UserContext)   
-
+    const {editAvatarModal, setEditAvatarModal, attAvatar, percent} = useContext(UserContext)   
 
     if(editAvatarModal){
         return (
@@ -16,13 +15,13 @@ const EditAvatarModal = () => {
                     <span onClick={() => setEditAvatarModal(!editAvatarModal)}>X</span>
                 </div>
                 <form onSubmit={() => attAvatar(event)}>
-                    <DropzoneAvatar />
+                    {percent ? <p>{percent} "% carregados"</p> : null}
+                    <DropzoneAvatar/>
                     <button type="submit">Enviar</button>
                 </form>
             </div>
           </StyledModalDiv>
         )
-
     }else{
         return null
     }
