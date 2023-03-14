@@ -45,8 +45,8 @@ export interface ILoginFormValues {
 }
 
 export interface IFileProps extends File {
-  path?: string
-  preview: string
+  path?: string;
+  preview: string;
 }
 
 interface IUserContext {
@@ -74,7 +74,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [editProfileModal, setEditProfileModal] = useState<boolean>(false);
   const [editAvatarModal, setEditAvatarModal] = useState<boolean>(false);
   const [files, setFiles] = useState<IFileProps[]>([]);
-  const [percent, setPercent] = useState<number>(0)
+  const [percent, setPercent] = useState<number>(0);
 
   const navigate = useNavigate();
 
@@ -112,6 +112,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
       const response = await api.post("/register", FormData);
       setUser(response.data);
       toast.success("Conta registrada com sucesso!");
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
@@ -126,63 +127,89 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
   };
 
   const editProfile = async (data: IEditProfile) => {
-    const userId = localStorage.getItem('@USERID')
-    const token = localStorage.getItem('@TOKEN')
+    const userId = localStorage.getItem("@USERID");
+    const token = localStorage.getItem("@TOKEN");
 
-    if(data.password === ""){
-      delete data.password
+    if (data.password === "") {
+      delete data.password;
     }
-    if(data.email === ""){
-      delete data.email
+    if (data.email === "") {
+      delete data.email;
     }
-    if(data.adress === ""){
-      delete data.adress
+    if (data.adress === "") {
+      delete data.adress;
     }
-    if(data.name === ""){
-      delete data.name
+    if (data.name === "") {
+      delete data.name;
     }
-    
-    try{
-      const response = await api.patch(`/users/${userId}`, data, {headers: {'Authorization': `Bearer ${token}`}})
-      const responseData = response.data
-      setUser(responseData)
-      setEditProfileModal(!editProfileModal)
-    }catch(error){
-      console.log(error)
+
+    try {
+      const response = await api.patch(`/users/${userId}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const responseData = response.data;
+      setUser(responseData);
+      setEditProfileModal(!editProfileModal);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const attAvatar = (event: any) => {
-    event.preventDefault()
-    const userId = localStorage.getItem('@USERID')
-    const token = localStorage.getItem('@TOKEN')
-    const storageRef = ref(storage, `/files/${files[0].name}`)
-    const uploadTask = uploadBytesResumable(storageRef, files[0])
+    event.preventDefault();
+    const userId = localStorage.getItem("@USERID");
+    const token = localStorage.getItem("@TOKEN");
+    const storageRef = ref(storage, `/files/${files[0].name}`);
+    const uploadTask = uploadBytesResumable(storageRef, files[0]);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         const percent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          setPercent(percent);
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setPercent(percent);
       },
       (err) => console.log(err),
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then( async (url) => {
-          try{
-            const response = await api.patch(`/users/${userId}`, {avatar: url}, {headers: {'Authorization': `Bearer ${token}`}})
-            const responseData = response.data
-            setUser(responseData)
-            setEditAvatarModal(!editAvatarModal)
-            setPercent(0)
-          }catch (error){
-            console.log(error)
+        getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
+          try {
+            const response = await api.patch(
+              `/users/${userId}`,
+              { avatar: url },
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            const responseData = response.data;
+            setUser(responseData);
+            setEditAvatarModal(!editAvatarModal);
+            setPercent(0);
+          } catch (error) {
+            console.log(error);
           }
         });
-      })
-  }
+      }
+    );
+  };
 
   return (
-    <UserContext.Provider value={{ user, setUser, userLogin, userRegister, getUser, userLogout, editProfileModal, setEditProfileModal, editProfile, editAvatarModal, setEditAvatarModal, files, setFiles, attAvatar, percent}}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        userLogin,
+        userRegister,
+        getUser,
+        userLogout,
+        editProfileModal,
+        setEditProfileModal,
+        editProfile,
+        editAvatarModal,
+        setEditAvatarModal,
+        files,
+        setFiles,
+        attAvatar,
+        percent,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

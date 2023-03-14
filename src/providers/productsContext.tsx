@@ -6,11 +6,13 @@ import { api } from "../Services/api"
 import { UserContext } from "./UserContext"
 import { useNavigate } from "react-router-dom"
 
+
 interface IDefaultProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export interface IProducts {
+
   description: string
   category?: string
   img: string
@@ -21,21 +23,21 @@ export interface IProducts {
 }
 
 export interface ICreateSaleFormValues {
-  name: string
-  category: string
-  description: string
-  img: string
-  price: number
+  name: string;
+  category: string;
+  description: string;
+  img: string;
+  price: number;
 }
 
 interface IProductsContext {
-  list: IProducts[]
-  setList: React.Dispatch<React.SetStateAction<IProducts[]>>
-  filteredProducts: string
-  setFilteredProducts: React.Dispatch<React.SetStateAction<string>>
-  searchProducts: IProducts[]
-  createSale: (FormData: ICreateSaleFormValues) => void
-  setCreateSaleModal: React.Dispatch<React.SetStateAction<boolean>>
+  list: IProducts[];
+  setList: React.Dispatch<React.SetStateAction<IProducts[]>>;
+  filteredProducts: string;
+  setFilteredProducts: React.Dispatch<React.SetStateAction<string>>;
+  searchProducts: IProducts[];
+  createSale: (FormData: ICreateSaleFormValues) => void;
+  setCreateSaleModal: React.Dispatch<React.SetStateAction<boolean>>;
   createSaleModal: boolean;
   addProductImg: (event: any) => void
   setMySales: React.Dispatch<React.SetStateAction<IProducts[]>>;
@@ -45,7 +47,7 @@ interface IProductsContext {
   addImgToProduct: (itemId: any) => void;
 }
 
-export const ProductsContext = createContext({} as IProductsContext)
+export const ProductsContext = createContext({} as IProductsContext);
 
 export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const [list, setList] = useState([] as IProducts[])
@@ -60,10 +62,10 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   useEffect(() => {
     const ListProduct = async () => {
       try {
-        const response = await api.get(`/products`)
-        setList(response.data)
+        const response = await api.get(`/products`);
+        setList(response.data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     ListProduct()
@@ -72,14 +74,14 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const searchProducts = list.filter((product) => {
     return filteredProducts === ""
       ? true
-      : product.name.toLowerCase().includes(filteredProducts.toLowerCase())
-  })
+      : product.name.toLowerCase().includes(filteredProducts.toLowerCase());
+  });
 
   async function createSale(FormData: ICreateSaleFormValues) {
-    const token = localStorage.getItem("@TOKEN")
-    const userId = localStorage.getItem('@USERID')
+    const token = localStorage.getItem("@TOKEN");
+    const userId = localStorage.getItem("@USERID");
 
-    const newData = {...FormData, "userId": Number(userId)}
+    const newData = { ...FormData, userId: Number(userId) };
 
     try {
       const response = await api.post("/products", newData, {
@@ -89,7 +91,7 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
       setCreateSaleModal(!createSaleModal)
       navigate('/mysales')
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -110,7 +112,8 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
         "state_changed",
         (snapshot) => {
           const percent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
         },
         (err) => console.log(err),
         () => {
@@ -137,5 +140,5 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
     >
       {children}
     </ProductsContext.Provider>
-  )
-}
+  );
+};
