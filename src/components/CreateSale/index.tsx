@@ -14,7 +14,6 @@ const schema = yup.object({
   name: yup.string().required("Insira o nome do produto"),
   category: yup.string().required("Insira a categoria do produto"),
   description: yup.string().required("Insira uma descrição para o produto"),
-  img: yup.string().required("Insira uma imagem para o produto"),
   price: yup.string().required("Insira o preço do produto"),
 })
 
@@ -39,12 +38,12 @@ const CreateSale = () => {
       <StyledForm>
         <div className="modal__container">
           <div className="modal__header">
-            <span
+            <button
               onClick={() => setCreateSaleModal(!createSaleModal)}
               className="back_button"
             >
-              X
-            </span>
+              <img src="./src/assets/botaoVoltar.png" alt="" />
+            </button>
             <h2>Criar uma venda</h2>
           </div>
           <form onSubmit={handleSubmit(submit)}>
@@ -68,13 +67,6 @@ const CreateSale = () => {
               register={register("description")}
               placeholder={"Descrição do produto"}
               errors={errors.description}
-            />
-            <Input
-              label={"Escolha uma imagem"}
-              type={"file"}
-              register={register("img")}
-              errors={errors.img}
-              InputLabelProps={{ shrink: true }}
             />
             <Input
               label={"Preço"}

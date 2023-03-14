@@ -11,9 +11,10 @@ export const CartProducts = ({product}: IProductsProps) => {
     return (
         <StylesCard>
             <button>
-                <img src={/* product. */img} alt={product.name} />
+                <img src={product.img} alt={product.name} />
                 <h2>{product.name}</h2>
                 <p>R$ {product.price}</p>
+                <p>{product.description}</p>
             </button>
         </StylesCard>
 
