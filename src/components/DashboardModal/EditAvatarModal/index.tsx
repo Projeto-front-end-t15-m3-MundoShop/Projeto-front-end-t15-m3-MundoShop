@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import DropzoneAvatar from "../../Dropzone"
+import {DropzoneAvatar} from "../../Dropzone"
 import { UserContext } from "../../../providers/UserContext"
 import { StyledModalDiv } from "../EditProfileModal/style"
 
@@ -16,7 +16,7 @@ const EditAvatarModal = () => {
                 </div>
                 <form onSubmit={() => attAvatar(event)}>
                     {percent ? <p>{percent} "% carregados"</p> : null}
-                    <DropzoneAvatar maxFiles={1}/>
+                    <DropzoneAvatar/>
                     <button type="submit">Enviar</button>
                 </form>
             </div>

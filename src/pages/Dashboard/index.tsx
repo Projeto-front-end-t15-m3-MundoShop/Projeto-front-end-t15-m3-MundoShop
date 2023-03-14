@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserContext } from "../../providers/UserContext"
 import LogoMundoShop from "../../components/LogoMundoShop"
-import { StyledDashboardMain, StyledHeaderDashboard } from "./style"
+import { StyledDashboardMain, StyledHeaderDashboard, Link } from "./style"
 import EditProfileModal from "../../components/DashboardModal/EditProfileModal"
 import EditAvatarModal from "../../components/DashboardModal/EditAvatarModal";
 import minhasVendasIcon from "../../assets/minhasVendasIcon.svg"
@@ -10,7 +10,6 @@ import meusPedidosIcon from "../../assets/meusPedidosIcon.svg"
 import criarVendaIcon from "../../assets/criarVendaIcon.svg"
 import { FaEdit } from "react-icons/fa"
 import CreateSale from "../../components/CreateSale"
-import { Link } from "react-router-dom"
 import { ProductsContext } from "../../providers/productsContext"
 
 
@@ -60,10 +59,10 @@ const Dashboard = () => {
               <img src={meusPedidosIcon} />
               <h2>Meus pedidos</h2>
             </div>
-            <div>
+            <Link to={'/mysales'}>
               <img src={minhasVendasIcon} />
               <h2>Minhas vendas</h2>
-            </div>
+            </Link>
             <div onClick={() => setCreateSaleModal(!createSaleModal)}>
               <img src={criarVendaIcon} />
               <h2>Criar uma venda</h2>

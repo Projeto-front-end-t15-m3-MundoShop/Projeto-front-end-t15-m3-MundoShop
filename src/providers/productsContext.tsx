@@ -2,9 +2,9 @@ import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage"
 import { createContext, useContext, useEffect, useState } from "react"
 import { storage } from "../firebase"
 import { toast } from "react-toastify"
-
 import { api } from "../Services/api"
 import { UserContext } from "./UserContext"
+import { useNavigate } from "react-router-dom"
 
 interface IDefaultProviderProps {
   children: React.ReactNode
@@ -17,6 +17,7 @@ export interface IProducts {
   name: string
   price: number
   userId: number
+  id?: number
 }
 
 export interface ICreateSaleFormValues {
@@ -37,6 +38,11 @@ interface IProductsContext {
   setCreateSaleModal: React.Dispatch<React.SetStateAction<boolean>>
   createSaleModal: boolean;
   addProductImg: (event: any) => void
+  setMySales: React.Dispatch<React.SetStateAction<IProducts[]>>;
+  mySales: IProducts[];
+  setProductFilesModal: React.Dispatch<React.SetStateAction<boolean>>;
+  productFilesModal: boolean;
+  addImgToProduct: (itemId: any) => void;
 }
 
 export const ProductsContext = createContext({} as IProductsContext)
@@ -45,9 +51,11 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const [list, setList] = useState([] as IProducts[])
   const [createSaleModal, setCreateSaleModal] = useState<boolean>(false)
   const [filteredProducts, setFilteredProducts] = useState("")
-  const {files} = useContext(UserContext)
+  const [mySales, setMySales] = useState([] as IProducts[])
+  const [productFilesModal, setProductFilesModal] = useState(false)
+  const {files, setFiles} = useContext(UserContext)
 
-  // commit
+  const navigate = useNavigate()
 
   useEffect(() => {
     const ListProduct = async () => {
@@ -61,10 +69,6 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
     ListProduct()
   }, [])
   
-  const searchProducts = list.filter((product) => {
-    return filteredProducts === "" ? true : (product.name.toLowerCase()).includes(filteredProducts.toLowerCase())
-})
-
   const searchProducts = list.filter((product) => {
     return filteredProducts === ""
       ? true
@@ -83,15 +87,22 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
       })
       toast.success("Venda criada com sucesso")
       setCreateSaleModal(!createSaleModal)
+      navigate('/mysales')
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const addImgToProduct = (itemId: any) => {
+    setProductFilesModal(!productFilesModal)
+    localStorage.setItem('@PRODUCTID', itemId.toString())
   }
 
   const addProductImg = (event: any) => {
     event.preventDefault()
     const userId = localStorage.getItem('@USERID')
     const token = localStorage.getItem('@TOKEN')
+    const productId = localStorage.getItem('@PRODUCTID')
     files?.map(item => {
       const storageRef = ref(storage, `/ProductsFiles/${item.name}`)
       const uploadTask = uploadBytesResumable(storageRef, item)
@@ -104,15 +115,25 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
         (err) => console.log(err),
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then( async (url) => {
-            console.log(url)
+            try {
+              const response = await api.patch(`/products/${productId}`, {img: url}, {headers: {'Authorization': `Bearer ${token}`}})
+              setProductFilesModal(!productFilesModal)
+              const mySalesUpdated = mySales.filter(item => item.id !== Number(productId))
+              console.log(mySalesUpdated)
+              setMySales([...mySalesUpdated, response.data])
+              localStorage.removeItem('@PRODUCTID')
+            }catch (error){
+              console.log(error)
+            }
           })
     })
     })
-}
+  }
+  
 
   return (
     <ProductsContext.Provider
-      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal, filteredProducts, setFilteredProducts, searchProducts, addProductImg}}
+      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal, filteredProducts, setFilteredProducts, searchProducts, addProductImg, setMySales, mySales, setProductFilesModal, productFilesModal, addImgToProduct}}
     >
       {children}
     </ProductsContext.Provider>

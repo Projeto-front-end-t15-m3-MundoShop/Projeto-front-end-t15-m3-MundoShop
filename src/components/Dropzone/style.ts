@@ -6,15 +6,16 @@ export const Image = styled.img`
 `;
 
 export const FilesPreview = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 110px 110px 110px 110px;
   justify-content: center;
+  gap: 1rem;
   align-items: center;
   margin-bottom: 30px;
   img{
     margin-top: 30px;
-    width: 200px;
-    height: 200px;
-    border-radius: 100%;
+    width: 100px;
+    height: 100px;
   }
 `;
 
