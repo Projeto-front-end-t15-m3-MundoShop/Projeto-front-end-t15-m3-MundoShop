@@ -1,10 +1,10 @@
 import { useContext } from "react"
 import { ProductsContext } from "../../providers/productsContext"
+import RemoveMySaleModal from "../DashboardModal/RemoveMySaleModal"
 import { StyledMyCardLi, StyledMySalesCardContainerButton } from "./style"
 
 const MySalesCard = () => {
-  const { mySales, addImgToProduct } = useContext(ProductsContext)
-
+    const {mySales, addImgToProduct, setRemoveMySalesModal, removeMySalesModal, openMySalesModal} = useContext(ProductsContext)
   return (
     <>
       {mySales?.map((item) => (
@@ -23,10 +23,12 @@ const MySalesCard = () => {
             <button onClick={() => addImgToProduct(item.id)}>
               Adicionar fotos
             </button>
-            <button className="remove__sale">Remover anúncio</button>
+            <button className="remove__sale" onClick={() => openMySalesModal(item.id)}>Remover anúncio</button>
           </StyledMySalesCardContainerButton>
         </StyledMyCardLi>
-      ))}
+    ))}
+    <RemoveMySaleModal/>
+
     </>
   )
 }

@@ -10,7 +10,7 @@ export const Cart = () => {
   const backToHome = () => {
     navigate("/");
   };
-  const { cart, removeProduct, totalValue } = useContext(CartContext);
+  const { cart, removeProduct } = useContext(CartContext);
   return (
     <CartStyles>
       <header>
