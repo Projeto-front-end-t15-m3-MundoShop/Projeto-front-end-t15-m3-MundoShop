@@ -79,7 +79,7 @@ export const MySalesPage = () => {
         <StyledMySalesMain>
           <StyledMySalesHeaderDiv>
             <img
-              src="./src/assets/botaoVoltar.png"
+              src={backIcon}
               onClick={() => history.back()}
             />
             <h2>Minhas vendas</h2>
