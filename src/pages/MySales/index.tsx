@@ -12,6 +12,7 @@ import {
   StyledMySalesMain,
   StyledMySalesUl,
 } from "./style"
+import backIcon from "../../assets/botaoVoltar.png"
 
 export const MySalesPage = () => {
   const { getUser } = useContext(UserContext)
@@ -51,7 +52,7 @@ export const MySalesPage = () => {
         <StyledMySalesMain>
           <StyledMySalesHeaderDiv>
             <img
-              src="./src/assets/botaoVoltar.png"
+              src={backIcon}
               onClick={() => history.back()}
             />
             <h2>Minhas vendas</h2>
