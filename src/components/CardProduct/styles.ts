@@ -22,6 +22,18 @@ export const StylesCard = styled.li`
     justify-content: center;
     align-items: flex-start;
     text-align: left;
+
+    img{
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  }
+
+  > button > img {
+    max-width:100%;
+    margin: 0 auto;
   }
 
   > button > h2 {
