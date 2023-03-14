@@ -23,11 +23,26 @@ export const StylesHeader = styled.header`
     width: 200px;
   }
 
+  > nav > span {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    position: absolute;
+    right: 10px;
+    img {
+      max-width: 35px;
+      background-color: transparent;
+    }
+  }
+
   > nav > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%
+    width: 100%;
   }
 
   nav > a > p {
@@ -44,14 +59,13 @@ export const StylesHeader = styled.header`
     color: #efefef;
   }
 
-  > nav > div > button  {
+  > nav > div > button {
     border: none;
     background-color: transparent;
     font-weight: 600;
     font-size: 0.9rem;
     line-height: 1.3rem;
     color: #efefef;
-
   }
 
   nav > div > h2 {
@@ -82,11 +96,10 @@ export const StylesHeader = styled.header`
     background-color: #3d1b45;
   }
 
-  > nav > button  {
+  > nav > button {
     border-radius: 0px 8px 8px 0px;
     border: none;
     background-color: transparent;
-
   }
 
   @media (min-width: 770px) {
@@ -94,18 +107,20 @@ export const StylesHeader = styled.header`
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 2%;
-    }
-    > nav > div {
+
+      button {
+        padding-right: 50px;
+      }
+
+      div {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
       width: 20%;
     }
-  }
-
-  > nav > form > input {
-    max-width: 70%;
     
+    form > input {
+    max-width: 70%;
+  }
   }
 `;
