@@ -49,6 +49,16 @@ export const StyledDashboardMain = styled.main`
     white 100%
   );
 
+  button{
+    border: none;
+    background-color: #751a8c;
+    border-radius: 8px;
+    width: 100px;
+    height: 30px;
+    color: rgb(248, 249, 250);
+    font-weight: bold;
+  }
+
   .user__header {
     display: flex;
     justify-content: space-around;
@@ -121,6 +131,12 @@ export const StyledDashboardMain = styled.main`
   }
 `
 
+export const StyledAvatarDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 export const Link = styled(linkRouter)`
   h2{
     font-size: 1.5rem;
@@ -129,4 +145,8 @@ export const Link = styled(linkRouter)`
     font-family: inter;
   }
 `;
+
+export const StyledImg = styled.img`
+  width: 190px;
+`
 
