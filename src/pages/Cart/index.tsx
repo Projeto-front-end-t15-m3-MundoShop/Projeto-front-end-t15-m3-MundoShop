@@ -3,6 +3,7 @@ import { CartStyles } from "./styles";
 import logo from "../../assets/LogoShop.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../providers/CartContext";
+import { IProducts } from "../../providers/productsContext";
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -70,7 +71,14 @@ export const Cart = () => {
         <aside>
           <div>
             <h2>Total</h2>
-            <p>R$ {`${totalValue}`}</p>
+            <p>
+              R${" "}
+              {cart.reduce(
+                (prevValue: number, currentValue: IProducts) =>
+                  prevValue + Number(currentValue.price),
+                0
+              )}
+            </p>
           </div>
           <button>Finalizar compras</button>
         </aside>
