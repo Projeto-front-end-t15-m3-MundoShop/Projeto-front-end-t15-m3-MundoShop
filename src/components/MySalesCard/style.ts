@@ -28,7 +28,6 @@ export const StyledMyCardLi = styled.li`
   }
 
   h2 {
-    text-align: center;
     font-weight: bold;
     margin-bottom: 10px;
   }
@@ -66,7 +65,7 @@ export const StyledMyCardLi = styled.li`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 50px;
+    gap: 200px;
   }
 `
 

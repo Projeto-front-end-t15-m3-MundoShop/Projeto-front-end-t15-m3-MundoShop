@@ -8,6 +8,11 @@ export const StyledMySalesUl = styled.ul`
 
   background-color: #f8f8f8;
   border-radius: 0px 0px 10px 10px;
+
+  p{
+    text-align: center;
+    font-size: 2rem;
+  }
 `
 
 export const StyledMySalesHeaderDiv = styled.div`
