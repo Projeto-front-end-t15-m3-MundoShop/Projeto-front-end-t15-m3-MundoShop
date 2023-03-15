@@ -1,16 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { CartStyles } from "./styles";
-import logo from "../../assets/LogoShop.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../providers/CartContext";
 import { IProducts } from "../../providers/productsContext";
+import logo from "../../assets/LogoShop.svg";
 
 export const Cart = () => {
   const navigate = useNavigate();
+  const { cart, setCart, removeProduct } = useContext(CartContext);
   const backToHome = () => {
     navigate("/");
   };
-  const { cart, removeProduct, totalValue } = useContext(CartContext);
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, []);
   return (
     <CartStyles>
       <header>
@@ -24,7 +30,7 @@ export const Cart = () => {
           </nav>
         </div>
       </header>
-      {(!cart || cart.length === 0) && (
+      {cart.length === 0 ? (
         <main className="carrinhoOff">
           <h1> Carrinho de compras </h1>
           <div className="listOff">
@@ -35,37 +41,35 @@ export const Cart = () => {
             <Link to={"/"}>Conferir ofertas</Link>
           </div>
         </main>
+      ) : (
+        <main className="carrinhoOn">
+          <h1> Carrinho de compras </h1>
+          <div className="overflow-container">
+            <ul className="listOn">
+              {cart.map((item) => (
+                <li>
+                  <div className="img-container">
+                    <img
+                      src={item.img}
+                      alt={`Imagem do produto ${item.name}`}
+                    />
+                  </div>
+                  <div className="name-container">
+                    <h2>{item.name}</h2>
+                    <p>{item.category}</p>
+                  </div>
+                  <button
+                    onClick={() => removeProduct(item.id)}
+                    className="button-remove"
+                  >
+                    X
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </main>
       )}
-      {cart &&
-        cart.map((item) => {
-          return (
-            <main className="carrinhoOn">
-              <h1> Carrinho de compras </h1>
-              <div className="overflow-container">
-                <ul className="listOn">
-                  <li>
-                    <div className="img-container">
-                      <img
-                        src={item.img}
-                        alt={`Imagem do produto ${item.name}`}
-                      />
-                    </div>
-                    <div className="name-container">
-                      <h2>{item.name}</h2>
-                      <p>{item.category}</p>
-                    </div>
-                    <button
-                      onClick={() => removeProduct(item.id)}
-                      className="button-remove"
-                    >
-                      X
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </main>
-          );
-        })}
 
       {cart.length !== 0 && (
         <aside>
@@ -75,7 +79,7 @@ export const Cart = () => {
               R${" "}
               {cart.reduce(
                 (prevValue: number, currentValue: IProducts) =>
-                  prevValue + Number(currentValue.price),
+                  prevValue + parseFloat(currentValue.price),
                 0
               )}
             </p>

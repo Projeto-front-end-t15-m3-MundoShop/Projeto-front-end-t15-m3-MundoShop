@@ -1,24 +1,23 @@
-import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage"
-import { createContext, useContext, useEffect, useState } from "react"
-import { storage } from "../firebase"
-import { toast } from "react-toastify"
-import { api } from "../Services/api"
-import { UserContext } from "./UserContext"
-import { useNavigate } from "react-router-dom"
-
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
+import { createContext, useContext, useEffect, useState } from "react";
+import { storage } from "../firebase";
+import { toast } from "react-toastify";
+import { api } from "../Services/api";
+import { UserContext } from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
 interface IDefaultProviderProps {
   children: React.ReactNode;
 }
 
 export interface IProducts {
-  description: string
-  category?: string
-  img: string
-  name: string
-  price: number
-  userId: number
-  id?: number
+  description: string;
+  category?: string;
+  img: string;
+  name: string;
+  price: string;
+  userId: number;
+  id?: number;
 }
 
 export interface ICreateSaleFormValues {
@@ -38,7 +37,7 @@ interface IProductsContext {
   createSale: (FormData: ICreateSaleFormValues) => void;
   setCreateSaleModal: React.Dispatch<React.SetStateAction<boolean>>;
   createSaleModal: boolean;
-  addProductImg: (event: any) => void
+  addProductImg: (event: any) => void;
   setMySales: React.Dispatch<React.SetStateAction<IProducts[]>>;
   mySales: IProducts[];
   setProductFilesModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,14 +48,14 @@ interface IProductsContext {
 export const ProductsContext = createContext({} as IProductsContext);
 
 export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
-  const [list, setList] = useState([] as IProducts[])
-  const [createSaleModal, setCreateSaleModal] = useState<boolean>(false)
-  const [filteredProducts, setFilteredProducts] = useState("")
-  const [mySales, setMySales] = useState([] as IProducts[])
-  const [productFilesModal, setProductFilesModal] = useState(false)
-  const {files, setFiles} = useContext(UserContext)
+  const [list, setList] = useState([] as IProducts[]);
+  const [createSaleModal, setCreateSaleModal] = useState<boolean>(false);
+  const [filteredProducts, setFilteredProducts] = useState("");
+  const [mySales, setMySales] = useState([] as IProducts[]);
+  const [productFilesModal, setProductFilesModal] = useState(false);
+  const { files, setFiles } = useContext(UserContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ListProduct = async () => {
@@ -66,16 +65,15 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
       } catch (error) {
         console.log(error);
       }
-    }
-    ListProduct()
-  }, [])
-  
+    };
+    ListProduct();
+  }, []);
+
   const searchProducts = list.filter((product) => {
     return filteredProducts === ""
       ? true
       : product.name.toLowerCase().includes(filteredProducts.toLowerCase());
   });
-
 
   async function createSale(FormData: ICreateSaleFormValues) {
     const token = localStorage.getItem("@TOKEN");
@@ -86,28 +84,28 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
     try {
       const response = await api.post("/products", newData, {
         headers: { Authorization: `Bearer ${token}` },
-      })
-      toast.success("Venda criada com sucesso")
-      setCreateSaleModal(!createSaleModal)
-      navigate('/mysales')
+      });
+      toast.success("Venda criada com sucesso");
+      setCreateSaleModal(!createSaleModal);
+      navigate("/mysales");
     } catch (error) {
       console.log(error);
     }
   }
 
   const addImgToProduct = (itemId: any) => {
-    setProductFilesModal(!productFilesModal)
-    localStorage.setItem('@PRODUCTID', itemId.toString())
-  }
+    setProductFilesModal(!productFilesModal);
+    localStorage.setItem("@PRODUCTID", itemId.toString());
+  };
 
   const addProductImg = (event: any) => {
-    event.preventDefault()
-    const userId = localStorage.getItem('@USERID')
-    const token = localStorage.getItem('@TOKEN')
-    const productId = localStorage.getItem('@PRODUCTID')
-    files?.map(item => {
-      const storageRef = ref(storage, `/ProductsFiles/${item.name}`)
-      const uploadTask = uploadBytesResumable(storageRef, item)
+    event.preventDefault();
+    const userId = localStorage.getItem("@USERID");
+    const token = localStorage.getItem("@TOKEN");
+    const productId = localStorage.getItem("@PRODUCTID");
+    files?.map((item) => {
+      const storageRef = ref(storage, `/ProductsFiles/${item.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, item);
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -117,26 +115,47 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
         },
         (err) => console.log(err),
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then( async (url) => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
             try {
-              const response = await api.patch(`/products/${productId}`, {img: url}, {headers: {'Authorization': `Bearer ${token}`}})
-              setProductFilesModal(!productFilesModal)
-              const mySalesUpdated = mySales.filter(item => item.id !== Number(productId))
-              console.log(mySalesUpdated)
-              setMySales([...mySalesUpdated, response.data])
-              localStorage.removeItem('@PRODUCTID')
-            }catch (error){
-              console.log(error)
+              const response = await api.patch(
+                `/products/${productId}`,
+                { img: url },
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              setProductFilesModal(!productFilesModal);
+              const mySalesUpdated = mySales.filter(
+                (item) => item.id !== Number(productId)
+              );
+              console.log(mySalesUpdated);
+              setMySales([...mySalesUpdated, response.data]);
+              localStorage.removeItem("@PRODUCTID");
+            } catch (error) {
+              console.log(error);
             }
-          })
-    })
-    })
-  }
-  
+          });
+        }
+      );
+    });
+  };
 
   return (
     <ProductsContext.Provider
-      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal, filteredProducts, setFilteredProducts, searchProducts, addProductImg, setMySales, mySales, setProductFilesModal, productFilesModal, addImgToProduct}}
+      value={{
+        list,
+        setList,
+        createSale,
+        createSaleModal,
+        setCreateSaleModal,
+        filteredProducts,
+        setFilteredProducts,
+        searchProducts,
+        addProductImg,
+        setMySales,
+        mySales,
+        setProductFilesModal,
+        productFilesModal,
+        addImgToProduct,
+      }}
     >
       {children}
     </ProductsContext.Provider>
