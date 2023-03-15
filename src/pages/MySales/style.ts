@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const StyledMySalesUl = styled.ul`
   width: 70%;
@@ -43,6 +43,11 @@ export const StyledMySalesHeaderDiv = styled.div`
 
   img:hover {
     background-color: rgb(112 112 112);
+  }
+  
+  p{
+  text-align: center;
+  font-size: 2rem;
   }
 `
 

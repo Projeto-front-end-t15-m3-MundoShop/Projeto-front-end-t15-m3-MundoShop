@@ -155,9 +155,6 @@ export const CartStyles = styled.div`
               font-weight: 700;
             }
           }
-          .overflow-container::-webkit-scrollbar {
-            width: 12px;
-          }
         }
       }
 

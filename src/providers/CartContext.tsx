@@ -4,6 +4,7 @@ import { IProducts } from "./productsContext";
 
 interface ICartContext {
   cart: IProducts[];
+  setCart: React.Dispatch<React.SetStateAction<IProducts[]>>;
   addToCart: (product: IProducts) => void;
   removeProduct: (id: any) => void;
 }
@@ -19,18 +20,20 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
 
   const addToCart = (product: IProducts) => {
     if (!cart.find((producter) => producter.id === product.id)) {
-      setCart([...cart, product]);
+      const newCart = [...cart, product];
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
     }
   };
 
   const removeProduct = (id: any) => {
-    setCart(cart.filter((product) => product.id !== id));
+    const newCart = cart.filter((product) => product.id !== id);
+    setCart(newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
   return (
-    <CartContext.Provider
-      value={{ cart, addToCart, removeProduct }}
-    >
+    <CartContext.Provider value={{ cart, setCart, addToCart, removeProduct }}>
       {children}
     </CartContext.Provider>
   );
