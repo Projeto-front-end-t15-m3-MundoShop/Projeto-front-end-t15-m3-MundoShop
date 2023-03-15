@@ -3,9 +3,9 @@ import styled from "styled-components";
 export const StylesCard = styled.li`
   width: 100%;
   max-width: 260px;
-  height: 350px;
+
   background-color: #ffffff;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 8px;
   font-family: "Inter";
   display: flex;
@@ -14,35 +14,35 @@ export const StylesCard = styled.li`
   box-sizing: border-box;
   padding: 15px 10px;
 
-  > button {
-    background-color: transparent;
+  img {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  h2 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+  }
+  p {
+    font-weight: 600;
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+    font-family: "Inter";
+    color: #333333;
+  }
+  .button-cart {
+    width: 90px;
+    height: 35px;
+    background-color: #308f0f;
     border: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-    gap: 15px;
-
+    border-radius: 7px;
     img {
-      width: 100%;
-      height: 200px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      max-width: 100%;
-      margin: 0 auto;
-    }
-    h2 {
-      font-weight: 600;
-      font-size: 1.2rem;
-      line-height: 1.5rem;
-    }
-    p {
-      font-weight: 600;
-      font-size: 0.8rem;
-      line-height: 1.3rem;
-      font-family: "Inter";
-      color: #333333;
+      width: 25px;
+      height: 25px;
     }
   }
 `;
