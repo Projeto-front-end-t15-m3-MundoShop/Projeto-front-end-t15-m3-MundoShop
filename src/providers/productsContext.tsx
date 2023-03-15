@@ -43,17 +43,22 @@ interface IProductsContext {
   setProductFilesModal: React.Dispatch<React.SetStateAction<boolean>>;
   productFilesModal: boolean;
   addImgToProduct: (itemId: any) => void;
+  removeMySale: () => Promise<void>;
+  removeMySalesModal: boolean;
+  setRemoveMySalesModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openMySalesModal: (itemId: any) => void;
 }
 
 export const ProductsContext = createContext({} as IProductsContext);
 
 export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
-  const [list, setList] = useState([] as IProducts[]);
-  const [createSaleModal, setCreateSaleModal] = useState<boolean>(false);
-  const [filteredProducts, setFilteredProducts] = useState("");
-  const [mySales, setMySales] = useState([] as IProducts[]);
-  const [productFilesModal, setProductFilesModal] = useState(false);
-  const { files, setFiles } = useContext(UserContext);
+  const [list, setList] = useState([] as IProducts[])
+  const [createSaleModal, setCreateSaleModal] = useState<boolean>(false)
+  const [filteredProducts, setFilteredProducts] = useState("")
+  const [mySales, setMySales] = useState([] as IProducts[])
+  const [productFilesModal, setProductFilesModal] = useState(false)
+  const [removeMySalesModal, setRemoveMySalesModal] = useState(false)
+  const {files, setFiles} = useContext(UserContext)
 
   const navigate = useNavigate();
 
@@ -99,13 +104,12 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   };
 
   const addProductImg = (event: any) => {
-    event.preventDefault();
-    const userId = localStorage.getItem("@USERID");
-    const token = localStorage.getItem("@TOKEN");
-    const productId = localStorage.getItem("@PRODUCTID");
-    files?.map((item) => {
-      const storageRef = ref(storage, `/ProductsFiles/${item.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, item);
+    event.preventDefault()
+    const token = localStorage.getItem('@TOKEN')
+    const productId = localStorage.getItem('@PRODUCTID')
+    files?.map(item => {
+      const storageRef = ref(storage, `/ProductsFiles/${item.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, item)
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -117,46 +121,42 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
             try {
-              const response = await api.patch(
-                `/products/${productId}`,
-                { img: url },
-                { headers: { Authorization: `Bearer ${token}` } }
-              );
-              setProductFilesModal(!productFilesModal);
-              const mySalesUpdated = mySales.filter(
-                (item) => item.id !== Number(productId)
-              );
-              console.log(mySalesUpdated);
-              setMySales([...mySalesUpdated, response.data]);
-              localStorage.removeItem("@PRODUCTID");
-            } catch (error) {
-              console.log(error);
+              const response = await api.patch(`/products/${productId}`, {img: url}, {headers: {'Authorization': `Bearer ${token}`}})
+              setProductFilesModal(!productFilesModal)
+              const mySalesUpdated = mySales.filter(item => item.id !== Number(productId))
+              setMySales([...mySalesUpdated, response.data])
+              toast.success("Imagem enviada!")
+              localStorage.removeItem('PRODUCTID')
+            }catch (error){
+              console.log(error)
             }
-          });
-        }
-      );
-    });
-  };
+          })
+    })
+    })
+  }
+
+  const openMySalesModal = (itemId: any) => {
+    setRemoveMySalesModal(!removeMySalesModal)
+    localStorage.setItem('@PRODUCTID', itemId.toString())
+  }
+
+  const removeMySale = async () => {
+    const token = localStorage.getItem('@TOKEN')
+    const productId = localStorage.getItem('@PRODUCTID')
+    try{
+      const response = await api.delete(`/products/${productId}`, {headers: {'Authorization': `Bearer ${token}`}})
+      setRemoveMySalesModal(!removeMySalesModal)
+      toast.success("Anúncio removido!")
+      window.location.reload()
+    }catch(error){
+      console.log(error)
+    }
+  }
+  
 
   return (
     <ProductsContext.Provider
-      value={{
-        list,
-        setList,
-        createSale,
-        createSaleModal,
-        setCreateSaleModal,
-        filteredProducts,
-        setFilteredProducts,
-        searchProducts,
-        addProductImg,
-        setMySales,
-        mySales,
-        setProductFilesModal,
-        productFilesModal,
-        addImgToProduct,
-      }}
-    >
+      value={{ list, setList, createSale, createSaleModal, setCreateSaleModal, filteredProducts, setFilteredProducts, searchProducts, addProductImg, setMySales, mySales, setProductFilesModal, productFilesModal, addImgToProduct, removeMySale, removeMySalesModal, setRemoveMySalesModal, openMySalesModal}}>
       {children}
     </ProductsContext.Provider>
   );

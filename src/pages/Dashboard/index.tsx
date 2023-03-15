@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserContext } from "../../providers/UserContext"
 import LogoMundoShop from "../../components/LogoMundoShop"
-import { StyledDashboardMain, StyledHeaderDashboard, Link } from "./style"
+import { StyledDashboardMain, StyledHeaderDashboard, Link, StyledImg, StyledAvatarDiv } from "./style"
 import EditProfileModal from "../../components/DashboardModal/EditProfileModal"
 import EditAvatarModal from "../../components/DashboardModal/EditAvatarModal";
 import minhasVendasIcon from "../../assets/minhasVendasIcon.svg"
@@ -11,6 +11,7 @@ import criarVendaIcon from "../../assets/criarVendaIcon.svg"
 import { FaEdit } from "react-icons/fa"
 import CreateSale from "../../components/CreateSale"
 import { ProductsContext } from "../../providers/productsContext"
+import defaultAvatar from '../../assets/defautlAvatar.png'
 
 
 const Dashboard = () => {
@@ -40,10 +41,10 @@ const Dashboard = () => {
       </StyledHeaderDashboard>
       <StyledDashboardMain>
         <section className="user__header">
-          <div>
-            <img src={user?.avatar} alt={user?.name} />
+          <StyledAvatarDiv>
+            {user?.avatar ? <img src={user?.avatar} alt={user?.name} /> : <img src={defaultAvatar} alt="Avatar"/>}
             <button onClick={() => setEditAvatarModal(!editAvatarModal)}>Alterar avatar</button>
-          </div>
+          </StyledAvatarDiv>
           <div>
             <h1>{user?.name}</h1>
             <p>{user?.email}</p>
@@ -56,15 +57,15 @@ const Dashboard = () => {
         <section className="user__nav--container">
           <nav>
             <div>
-              <img src={meusPedidosIcon} />
+              <StyledImg src={meusPedidosIcon} />
               <h2>Meus pedidos</h2>
             </div>
             <Link to={'/mysales'}>
-              <img src={minhasVendasIcon} />
+              <StyledImg src={minhasVendasIcon} />
               <h2>Minhas vendas</h2>
             </Link>
             <div onClick={() => setCreateSaleModal(!createSaleModal)}>
-              <img src={criarVendaIcon} />
+              <StyledImg src={criarVendaIcon} />
               <h2>Criar uma venda</h2>
             </div>
           </nav>

@@ -7,57 +7,39 @@ import { ProductsContext } from "../../providers/productsContext"
 import { UserContext } from "../../providers/UserContext"
 import { api } from "../../Services/api"
 import { StyledHeaderDashboard } from "../Dashboard/style"
-import { StyledMySalesHeaderDiv, StyledMySalesUl } from "./style"
+import {
+  StyledMySalesHeaderDiv,
+  StyledMySalesMain,
+  StyledMySalesUl,
+} from "./style"
+import backIcon from "../../assets/botaoVoltar.png"
 
 export const MySalesPage = () => {
-  const {getUser} = useContext(UserContext)
+  const { getUser } = useContext(UserContext)
   const { setMySales, mySales } = useContext(ProductsContext)
   const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem("@TOKEN")
-    const userId = localStorage.getItem('@USERID')
+    const userId = localStorage.getItem("@USERID")
     if (token) {
       getUser()
     } else {
-      navigate("/login");
+      navigate("/login")
     }
 
     const mySales = async () => {
-      try{
+      try {
         const response = await api.get(`/products?userId=${userId}`)
         setMySales(response.data)
-      }catch (error){
+      } catch (error) {
         console.log(error)
       }
     }
     mySales()
   }, [])
 
-  if(mySales.length === 0){
-    return (
-      <>
-      <StyledHeaderDashboard>
-        <LogoMundoShop />
-        <nav>
-          <a href="/">Início</a>
-          <p onClick={() => history.back()}>Voltar</p>
-        </nav>
-      </StyledHeaderDashboard>
-      <main>
-          <StyledMySalesHeaderDiv>
-            <h2>Meus anúncios</h2>
-          </StyledMySalesHeaderDiv>
-          <div>
-              <StyledMySalesUl>
-                <p>Sem anúncios cadastrados</p>
-              </StyledMySalesUl>
-          </div>
-          <MySalesImgModal/>
-      </main>
-    </>
-    )
-  }else{
+  if (mySales.length === 0) {
     return (
       <>
         <StyledHeaderDashboard>
@@ -67,17 +49,48 @@ export const MySalesPage = () => {
             <p onClick={() => history.back()}>Voltar</p>
           </nav>
         </StyledHeaderDashboard>
-        <main>
-            <StyledMySalesHeaderDiv>
-              <h2>Meus anúncios</h2>
-            </StyledMySalesHeaderDiv>
-            <div>
-                <StyledMySalesUl>
-                  <MySalesCard/>
-                </StyledMySalesUl>
-            </div>
-            <MySalesImgModal/>
-        </main>
+        <StyledMySalesMain>
+          <StyledMySalesHeaderDiv>
+            <img
+              src={backIcon}
+              onClick={() => history.back()}
+            />
+            <h2>Minhas vendas</h2>
+          </StyledMySalesHeaderDiv>
+          <div>
+            <StyledMySalesUl>
+              <p>Sem anúncios cadastrados</p>
+            </StyledMySalesUl>
+          </div>
+          <MySalesImgModal />
+        </StyledMySalesMain>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <StyledHeaderDashboard>
+          <LogoMundoShop />
+          <nav>
+            <a href="/">Início</a>
+            <p onClick={() => history.back()}>Voltar</p>
+          </nav>
+        </StyledHeaderDashboard>
+        <StyledMySalesMain>
+          <StyledMySalesHeaderDiv>
+            <img
+              src={backIcon}
+              onClick={() => history.back()}
+            />
+            <h2>Minhas vendas</h2>
+          </StyledMySalesHeaderDiv>
+          <div>
+            <StyledMySalesUl>
+              <MySalesCard />
+            </StyledMySalesUl>
+          </div>
+          <MySalesImgModal />
+        </StyledMySalesMain>
       </>
     )
   }

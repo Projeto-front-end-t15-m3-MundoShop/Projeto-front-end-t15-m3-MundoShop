@@ -11,12 +11,14 @@ export const Cart = () => {
   const backToHome = () => {
     navigate("/");
   };
+
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
       setCart(JSON.parse(savedCart));
     }
   }, []);
+
   return (
     <CartStyles>
       <header>
